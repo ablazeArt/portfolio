@@ -120,6 +120,9 @@ a {
 
 .system-hud .hud-kicker {
   opacity: 0;
+}
+
+.three-system-shell.is-ready .system-hud .hud-kicker {
   animation: hud-kicker-reveal 560ms ease-out 180ms forwards;
 }
 
@@ -138,6 +141,9 @@ a {
   display: block;
   opacity: 0;
   transform: translateY(18px);
+}
+
+.three-system-shell.is-ready .system-hud .title-line {
   animation: hud-title-reveal 680ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
@@ -164,6 +170,9 @@ a {
   opacity: 0;
   transform: translateY(10px);
   text-shadow: 0 0 24px rgba(0, 0, 0, 0.95);
+}
+
+.three-system-shell.is-ready .system-hud .hud-copy {
   animation: hud-copy-reveal 620ms ease-out 780ms forwards;
 }
 
@@ -198,6 +207,9 @@ a {
 .control-hint span {
   opacity: 0;
   transform: translateY(10px);
+}
+
+.three-system-shell.is-ready .control-hint span {
   animation: hud-copy-reveal 520ms ease-out forwards;
 }
 
@@ -224,8 +236,11 @@ a {
   z-index: 5;
   cursor: pointer;
   opacity: 0;
-  animation: camera-arrival 560ms ease-out 1040ms forwards;
   transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.three-system-shell.is-ready .camera-toggle {
+  animation: camera-arrival 560ms ease-out 1040ms forwards;
 }
 
 .three-system-shell.has-drawer .camera-toggle {
