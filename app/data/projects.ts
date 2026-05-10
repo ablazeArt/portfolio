@@ -45,59 +45,9 @@ export type PortfolioProject = {
 
 export const portfolioProjects: PortfolioProject[] = [
   {
-    slug: "thvote69",
-    name: "THVote69",
-    codename: "Mercury",
-    category: "Election Dashboard",
-    year: "2026",
-    status: "Live tracker",
-    liveUrl: "https://vote69.thematter.co/",
-    summary:
-      "A real-time Thai election results dashboard for The MATTER with live seat, vote, and turnout reporting.",
-    description:
-      "THVote69 is a public election-results tracker built for The MATTER. It presents unofficial election outcomes, party rankings, constituency and party-list seats, turnout metrics, and regional views in a fast dashboard experience designed for heavy public traffic.",
-    characteristics: [
-      "Real-time Results",
-      "Public Dashboard",
-      "Data Visualization",
-      "High Traffic",
-    ],
-    highlights: [
-      "Live election-result interface with seat counts and party rankings.",
-      "Regional and party-based views for scanning national results.",
-      "Optimized dashboard experience for election-day public traffic.",
-    ],
-    screenshots: [
-      {
-        src: "/project-screens/vote69.png",
-        alt: "THVote69 election dashboard screen",
-        caption:
-          "Election dashboard preview showing real-time result cards, party rankings, and national vote-tracking views.",
-        width: 3016,
-        height: 1712,
-      },
-    ],
-    orbit: {
-      width: "22%",
-      height: "12%",
-      tilt: -9,
-      x: "58%",
-      y: "47%",
-      duration: "28s",
-      delay: "-8s",
-      labelSide: "right",
-    },
-    visual: {
-      size: 28,
-      color: "#ffb36b",
-      glow: "rgba(255, 179, 107, 0.72)",
-      orbitColor: "rgba(255, 179, 107, 0.42)",
-    },
-  },
-  {
     slug: "whallet",
     name: "Whallet",
-    codename: "Venus",
+    codename: "Mercury",
     category: "Fintech Wallet",
     year: "2023",
     status: "Live site",
@@ -125,6 +75,56 @@ export const portfolioProjects: PortfolioProject[] = [
           "Whallet product website preview showing digital wallet positioning and onboarding content.",
         width: 2994,
         height: 1728,
+      },
+    ],
+    orbit: {
+      width: "22%",
+      height: "12%",
+      tilt: -9,
+      x: "58%",
+      y: "47%",
+      duration: "28s",
+      delay: "-8s",
+      labelSide: "right",
+    },
+    visual: {
+      size: 28,
+      color: "#ffb36b",
+      glow: "rgba(255, 179, 107, 0.72)",
+      orbitColor: "rgba(255, 179, 107, 0.42)",
+    },
+  },
+  {
+    slug: "ticktopia",
+    name: "Ticktopia",
+    codename: "Venus",
+    category: "Event Ticketing",
+    year: "2026",
+    status: "Live site",
+    liveUrl: "https://www.ticktopia.co/",
+    summary:
+      "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
+    description:
+      "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
+    characteristics: [
+      "Event Discovery",
+      "Ticketing Journey",
+      "Conversion-focused",
+      "Responsive Landing",
+    ],
+    highlights: [
+      "Event-focused landing flow for discovery and conversion.",
+      "Clear product positioning around ticket access and event browsing.",
+      "Responsive interface structure for users browsing across devices.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/ticktopia.png",
+        alt: "Ticktopia event ticketing website screen",
+        caption:
+          "Ticktopia preview showing the event-ticketing website experience and user path toward ticket discovery.",
+        width: 2826,
+        height: 1572,
       },
     ],
     orbit: {
@@ -196,59 +196,9 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "ctrl-g",
-    name: "CTRL G",
-    codename: "Mars",
-    category: "Gaming Community",
-    year: "2024",
-    status: "Production",
-    liveUrl: "https://ctrlg.gg/",
-    summary:
-      "A gaming community platform for player discovery, party matching, esports tournaments, and quizzes.",
-    description:
-      "CTRL G brings community features, esports tournament participation, game quizzes, and party matching into one gamer-focused platform. This project highlights community UX, matchmaking flows, and responsive product surfaces for players who want to connect and compete.",
-    characteristics: [
-      "Gaming Community",
-      "Party Matching",
-      "Esports Engagement",
-      "Player Discovery",
-    ],
-    highlights: [
-      "Community-driven space for gamers to post updates and follow games.",
-      "Party matching flow for finding teammates by preference and play mode.",
-      "Tournament and quiz surfaces designed for competitive gaming engagement.",
-    ],
-    screenshots: [
-      {
-        src: "/project-screens/ctrlg.png",
-        alt: "CTRL G gaming community platform screen",
-        caption:
-          "CTRL G preview showing the gaming community product surface for players, events, and engagement.",
-        width: 2992,
-        height: 1722,
-      },
-    ],
-    orbit: {
-      width: "58%",
-      height: "34%",
-      tilt: -10,
-      x: "42%",
-      y: "62%",
-      duration: "51s",
-      delay: "-5s",
-      labelSide: "left",
-    },
-    visual: {
-      size: 34,
-      color: "#ef6a4a",
-      glow: "rgba(239, 106, 74, 0.75)",
-      orbitColor: "rgba(239, 106, 74, 0.36)",
-    },
-  },
-  {
     slug: "cloudviu",
     name: "Cloudviu",
-    codename: "Jupiter",
+    codename: "Mars",
     category: "Field Workforce CMS",
     year: "2024 – Present",
     status: "Private internal system",
@@ -290,6 +240,56 @@ export const portfolioProjects: PortfolioProject[] = [
       },
     ],
     orbit: {
+      width: "58%",
+      height: "34%",
+      tilt: -10,
+      x: "42%",
+      y: "62%",
+      duration: "51s",
+      delay: "-5s",
+      labelSide: "left",
+    },
+    visual: {
+      size: 34,
+      color: "#ef6a4a",
+      glow: "rgba(239, 106, 74, 0.75)",
+      orbitColor: "rgba(239, 106, 74, 0.36)",
+    },
+  },
+  {
+    slug: "ctrl-g",
+    name: "CTRL G",
+    codename: "Jupiter",
+    category: "Gaming Community",
+    year: "2024",
+    status: "Production",
+    liveUrl: "https://ctrlg.gg/",
+    summary:
+      "A gaming community platform for player discovery, party matching, esports tournaments, and quizzes.",
+    description:
+      "CTRL G brings community features, esports tournament participation, game quizzes, and party matching into one gamer-focused platform. This project highlights community UX, matchmaking flows, and responsive product surfaces for players who want to connect and compete.",
+    characteristics: [
+      "Gaming Community",
+      "Party Matching",
+      "Esports Engagement",
+      "Player Discovery",
+    ],
+    highlights: [
+      "Community-driven space for gamers to post updates and follow games.",
+      "Party matching flow for finding teammates by preference and play mode.",
+      "Tournament and quiz surfaces designed for competitive gaming engagement.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/ctrlg.png",
+        alt: "CTRL G gaming community platform screen",
+        caption:
+          "CTRL G preview showing the gaming community product surface for players, events, and engagement.",
+        width: 2992,
+        height: 1722,
+      },
+    ],
+    orbit: {
       width: "72%",
       height: "44%",
       tilt: -6,
@@ -307,36 +307,36 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "ticktopia",
-    name: "Ticktopia",
+    slug: "thvote69",
+    name: "THVote69",
     codename: "Saturn",
-    category: "Event Ticketing",
+    category: "Election Dashboard",
     year: "2026",
-    status: "Live site",
-    liveUrl: "https://www.ticktopia.co/",
+    status: "Live tracker",
+    liveUrl: "https://vote69.thematter.co/",
     summary:
-      "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
+      "A real-time Thai election results dashboard for The MATTER with live seat, vote, and turnout reporting.",
     description:
-      "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
+      "THVote69 is a public election-results tracker built for The MATTER. It presents unofficial election outcomes, party rankings, constituency and party-list seats, turnout metrics, and regional views in a fast dashboard experience designed for heavy public traffic.",
     characteristics: [
-      "Event Discovery",
-      "Ticketing Journey",
-      "Conversion-focused",
-      "Responsive Landing",
+      "Real-time Results",
+      "Public Dashboard",
+      "Data Visualization",
+      "High Traffic",
     ],
     highlights: [
-      "Event-focused landing flow for discovery and conversion.",
-      "Clear product positioning around ticket access and event browsing.",
-      "Responsive interface structure for users browsing across devices.",
+      "Live election-result interface with seat counts and party rankings.",
+      "Regional and party-based views for scanning national results.",
+      "Optimized dashboard experience for election-day public traffic.",
     ],
     screenshots: [
       {
-        src: "/project-screens/ticktopia.png",
-        alt: "Ticktopia event ticketing website screen",
+        src: "/project-screens/vote69.png",
+        alt: "THVote69 election dashboard screen",
         caption:
-          "Ticktopia preview showing the event-ticketing website experience and user path toward ticket discovery.",
-        width: 2826,
-        height: 1572,
+          "Election dashboard preview showing real-time result cards, party rankings, and national vote-tracking views.",
+        width: 3016,
+        height: 1712,
       },
     ],
     orbit: {
@@ -418,6 +418,7 @@ export const portfolioProjects: PortfolioProject[] = [
       orbitColor: "rgba(107, 141, 255, 0.36)",
     },
   },
+
 ];
 
 export function getProjectBySlug(slug: string) {
