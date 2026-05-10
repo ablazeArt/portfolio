@@ -9,7 +9,7 @@ export type PortfolioProject = {
   liveLabel?: string;
   summary: string;
   description: string;
-  stack: string[];
+  characteristics: string[];
   highlights: string[];
   caseStudy?: {
     heading: string;
@@ -56,7 +56,12 @@ export const portfolioProjects: PortfolioProject[] = [
       "A real-time Thai election results dashboard for The MATTER with live seat, vote, and turnout reporting.",
     description:
       "THVote69 is a public election-results tracker built for The MATTER. It presents unofficial election outcomes, party rankings, constituency and party-list seats, turnout metrics, and regional views in a fast dashboard experience designed for heavy public traffic.",
-    stack: ["Svelte", "Realtime Dashboard", "Data Visualization", "High Traffic"],
+    characteristics: [
+      "Real-time Results",
+      "Public Dashboard",
+      "Data Visualization",
+      "High Traffic",
+    ],
     highlights: [
       "Live election-result interface with seat counts and party rankings.",
       "Regional and party-based views for scanning national results.",
@@ -94,14 +99,19 @@ export const portfolioProjects: PortfolioProject[] = [
     name: "Whallet",
     codename: "Venus",
     category: "Fintech Wallet",
-    year: "2025",
+    year: "2023",
     status: "Live site",
     liveUrl: "https://www.whallet.co/",
     summary:
       "A digital-asset wallet website for deposits, transfers, and utility-token onboarding.",
     description:
       "Whallet is a digital-asset wallet product site focused on making token deposits and transfers feel approachable. The experience explains wallet actions, favorite wallet addresses, and account-safety rules in a customer-facing flow.",
-    stack: ["Product Website", "Fintech UX", "Digital Wallet", "Responsive UI"],
+    characteristics: [
+      "Fintech Onboarding",
+      "Digital Wallet",
+      "Web3 Utility",
+      "Trust-focused UX",
+    ],
     highlights: [
       "Clear onboarding path for wallet registration and login.",
       "Explains deposit and transfer flows around QR codes and wallet addresses.",
@@ -147,7 +157,12 @@ export const portfolioProjects: PortfolioProject[] = [
       "A LINE LIFF mental-health web app for CBT-based mood tracking, emotional reflection, and safety support.",
     description:
       "EMMIND is a LINE LIFF web application built around Cognitive Behavioral Therapy principles. It helps users record daily emotions, learn about depression, work through guided exercises, plan supportive routines, and access a Safety Plan when they need quick help.",
-    stack: ["React", "Shadcn", "NestJS", "PostgreSQL", "LINE LIFF"],
+    characteristics: [
+      "Mental Health Support",
+      "CBT-guided Flow",
+      "Safety Planning",
+      "LINE Experience",
+    ],
     highlights: [
       "Built as a LIFF experience that opens inside LINE.",
       "Guided CBT-style flows for tracking thoughts, emotions, and behavior.",
@@ -192,7 +207,12 @@ export const portfolioProjects: PortfolioProject[] = [
       "A gaming community platform for player discovery, party matching, esports tournaments, and quizzes.",
     description:
       "CTRL G brings community features, esports tournament participation, game quizzes, and party matching into one gamer-focused platform. This project highlights community UX, matchmaking flows, and responsive product surfaces for players who want to connect and compete.",
-    stack: ["React", "Ant Design", "Community UX", "Matchmaking"],
+    characteristics: [
+      "Gaming Community",
+      "Party Matching",
+      "Esports Engagement",
+      "Player Discovery",
+    ],
     highlights: [
       "Community-driven space for gamers to post updates and follow games.",
       "Party matching flow for finding teammates by preference and play mode.",
@@ -230,13 +250,18 @@ export const portfolioProjects: PortfolioProject[] = [
     name: "Cloudviu",
     codename: "Jupiter",
     category: "Field Workforce CMS",
-    year: "2025",
+    year: "2024 – Present",
     status: "Private internal system",
     summary:
       "A private CMS for companies that outsource nationwide field jobs such as stock checks, product audits, and outlet visits.",
     description:
       "Cloudviu helps companies manage outsourced field employees who work across many locations. The system supports assigning teams to jobs, organizing outlets, tracking product and inventory checks, collecting job records, and reviewing reports for work spread across the country. Public access is unavailable because this is an authenticated internal system.",
-    stack: ["React", "Ant Design", "Field Ops CMS", "Inventory Workflow"],
+    characteristics: [
+      "Field Workforce CMS",
+      "Nationwide Operations",
+      "Inventory Checks",
+      "Private Back Office",
+    ],
     highlights: [
       "Team-group and team management for outsourced field workers.",
       "Job workflows for stock checks, product checks, outlet visits, and audits.",
@@ -286,14 +311,19 @@ export const portfolioProjects: PortfolioProject[] = [
     name: "Ticktopia",
     codename: "Saturn",
     category: "Event Ticketing",
-    year: "2024",
+    year: "2026",
     status: "Live site",
     liveUrl: "https://www.ticktopia.co/",
     summary:
       "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
     description:
       "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
-    stack: ["Product Website", "Event UX", "Ticketing Flow", "Responsive UI"],
+    characteristics: [
+      "Event Discovery",
+      "Ticketing Journey",
+      "Conversion-focused",
+      "Responsive Landing",
+    ],
     highlights: [
       "Event-focused landing flow for discovery and conversion.",
       "Clear product positioning around ticket access and event browsing.",
@@ -338,7 +368,12 @@ export const portfolioProjects: PortfolioProject[] = [
       "A production CMS and LIFF-connected system for managing Samitivej member benefits, cards, coupons, packages, redemptions, and data exports.",
     description:
       "Samitivej Benefits is a private production system for hospital member-benefit operations. The CMS supports member records, member cards, coupon codes, benefit redemption requests, benefit usage documents, packages, users, branches, and report exports, while the related LIFF app gives members access to their benefits flow.",
-    stack: ["CMS", "LINE LIFF", "Member Benefits", "Data Export"],
+    characteristics: [
+      "Hospital Benefits CMS",
+      "Member Cards",
+      "Redemption Workflow",
+      "Operational Export",
+    ],
     highlights: [
       "Member-card and user management for hospital benefit operations.",
       "Coupon, package, benefit redemption, and redemption-request workflows.",

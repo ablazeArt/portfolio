@@ -13,7 +13,7 @@ export const profile = {
     points: [
       "Developed responsive web applications with React, Remix, Next.js, and Svelte.",
       "Created backend services and REST APIs with Node.js, NestJS, and PostgreSQL.",
-      "Built interactive campaign experiences and web animations with PixiJS.",
+      "Built interactive campaign experiences and web animations with Three.js.",
     ],
   },
   skills: [
@@ -26,6 +26,7 @@ export const profile = {
     "Ant Design",
     "Node.js",
     "NestJS",
+    "GraphQL",
     "PostgreSQL",
     "MongoDB",
     "PixiJS",

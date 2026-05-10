@@ -17,6 +17,19 @@ export type PlanetRuntime = {
   angle: number;
 };
 
+export type SunRuntime = {
+  baseColor: THREE.Color;
+  activeColor: THREE.Color;
+  material: THREE.MeshBasicMaterial;
+  mesh: THREE.Mesh;
+  glow: THREE.Sprite;
+  glowMaterial: THREE.SpriteMaterial;
+  outerGlow: THREE.Sprite;
+  hitArea: THREE.Mesh;
+  label: THREE.Sprite;
+  light: THREE.PointLight;
+};
+
 export type CameraReadout = {
   camera: [number, number, number];
   target: [number, number, number];
@@ -33,6 +46,8 @@ export type HoverTarget =
       type: "sun";
     }
   | null;
+
+export type RocketOrbitTarget = Exclude<HoverTarget, null>;
 
 export type TapCandidate = {
   target: HoverTarget;

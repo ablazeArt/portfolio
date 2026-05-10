@@ -57,8 +57,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <h1>{project.name}</h1>
           <p className="project-detail-copy">{project.description}</p>
 
-          <div className="stack-cluster" aria-label={`${project.name} stack`}>
-            {project.stack.map((item) => (
+          <div className="stack-cluster" aria-label={`${project.name} characteristics`}>
+            {project.characteristics.map((item) => (
               <span key={item}>{item}</span>
             ))}
           </div>

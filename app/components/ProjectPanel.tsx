@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { PortfolioProject } from "@/app/data/projects";
-import { Activity, Calendar, ExternalLink, FileText, Globe } from "lucide-react";
+import { Activity, Calendar, ExternalLink, FileText } from "lucide-react";
 
 type ProjectPanelProps = {
   project: PortfolioProject;
@@ -51,8 +51,8 @@ export function ProjectPanel({
           </div>
         </dl>
 
-        <div className="stack-cluster" aria-label={`${project.name} stack`}>
-          {project.stack.map((item) => (
+        <div className="stack-cluster" aria-label={`${project.name} characteristics`}>
+          {project.characteristics.map((item) => (
             <span key={item}>{item}</span>
           ))}
         </div>
@@ -77,9 +77,6 @@ export function ProjectPanel({
           <Link href={`/projects/${project.slug}`} className="flex items-center gap-2">
             <FileText size={16} /> Open mission brief
           </Link>
-          <a href="#mission-index-title" className="flex items-center gap-2">
-            <Globe size={16} /> Browse all planets
-          </a>
         </div>
       </div>
     </aside>
