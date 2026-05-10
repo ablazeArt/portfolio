@@ -5,10 +5,25 @@ export type PortfolioProject = {
   category: string;
   year: string;
   status: string;
+  liveUrl?: string;
+  liveLabel?: string;
   summary: string;
   description: string;
   stack: string[];
   highlights: string[];
+  caseStudy?: {
+    heading: string;
+    overview: string;
+    useCases: string[];
+    privateNote?: string;
+  };
+  screenshots?: {
+    src: string;
+    alt: string;
+    caption: string;
+    width: number;
+    height: number;
+  }[];
   orbit: {
     width: string;
     height: string;
@@ -30,21 +45,32 @@ export type PortfolioProject = {
 
 export const portfolioProjects: PortfolioProject[] = [
   {
-    slug: "aurora-ops",
-    name: "Aurora Ops",
+    slug: "thvote69",
+    name: "THVote69",
     codename: "Mercury",
-    category: "Dashboard",
+    category: "Election Dashboard",
     year: "2026",
-    status: "Prototype",
+    status: "Live tracker",
+    liveUrl: "https://vote69.thematter.co/",
     summary:
-      "An operations dashboard concept for surfacing live system signals, incidents, and launch readiness.",
+      "A real-time Thai election results dashboard for The MATTER with live seat, vote, and turnout reporting.",
     description:
-      "Aurora Ops is the smallest inner planet in the system: fast, dense, and built around immediate signal clarity. Replace this placeholder with a real project once the core visual system is locked.",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Realtime UI"],
+      "THVote69 is a public election-results tracker built for The MATTER. It presents unofficial election outcomes, party rankings, constituency and party-list seats, turnout metrics, and regional views in a fast dashboard experience designed for heavy public traffic.",
+    stack: ["Svelte", "Realtime Dashboard", "Data Visualization", "High Traffic"],
     highlights: [
-      "Command-center layout for noisy operational data.",
-      "Compact cards designed for quick scanning.",
-      "Clear escalation states for issues and ownership.",
+      "Live election-result interface with seat counts and party rankings.",
+      "Regional and party-based views for scanning national results.",
+      "Optimized dashboard experience for election-day public traffic.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/vote69.png",
+        alt: "THVote69 election dashboard screen",
+        caption:
+          "Election dashboard preview showing real-time result cards, party rankings, and national vote-tracking views.",
+        width: 3016,
+        height: 1712,
+      },
     ],
     orbit: {
       width: "22%",
@@ -64,21 +90,32 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "helio-shop",
-    name: "Helio Shop",
+    slug: "whallet",
+    name: "Whallet",
     codename: "Venus",
-    category: "Commerce",
+    category: "Fintech Wallet",
     year: "2025",
-    status: "Case study",
+    status: "Live site",
+    liveUrl: "https://www.whallet.co/",
     summary:
-      "A high-conversion storefront experiment focused on product storytelling and checkout confidence.",
+      "A digital-asset wallet website for deposits, transfers, and utility-token onboarding.",
     description:
-      "Helio Shop represents commerce work: warm, visual, and close to the sun because it depends on strong product gravity. Swap in your production storefront, marketplace, or checkout project here.",
-    stack: ["React", "Design Systems", "Checkout UX", "Analytics"],
+      "Whallet is a digital-asset wallet product site focused on making token deposits and transfers feel approachable. The experience explains wallet actions, favorite wallet addresses, and account-safety rules in a customer-facing flow.",
+    stack: ["Product Website", "Fintech UX", "Digital Wallet", "Responsive UI"],
     highlights: [
-      "Product pages with sharper visual hierarchy.",
-      "Trust-building checkout and comparison sections.",
-      "Reusable component patterns for catalog growth.",
+      "Clear onboarding path for wallet registration and login.",
+      "Explains deposit and transfer flows around QR codes and wallet addresses.",
+      "Communicates account safety with a simple one-person, one-wallet rule.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/whallet.png",
+        alt: "Whallet product website screen",
+        caption:
+          "Whallet product website preview showing digital wallet positioning and onboarding content.",
+        width: 2994,
+        height: 1728,
+      },
     ],
     orbit: {
       width: "34%",
@@ -98,21 +135,33 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "comet-cms",
-    name: "Comet CMS",
+    slug: "emmind",
+    name: "EMMIND",
     codename: "Earth",
-    category: "Content",
+    category: "Mental Health LIFF",
     year: "2025",
-    status: "Live build",
+    status: "Live LIFF app",
+    liveUrl: "https://aimet.tech/en/all-projects/emmind/",
+    liveLabel: "View LIFF project",
     summary:
-      "A content-management workflow for publishing rich project pages without touching page code.",
+      "A LINE LIFF mental-health web app for CBT-based mood tracking, emotional reflection, and safety support.",
     description:
-      "Comet CMS is the habitable planet: where writing, editing, and publishing live. It can become the place for your strongest real portfolio case study.",
-    stack: ["Next.js App Router", "MDX", "Content Modeling", "SEO"],
+      "EMMIND is a LINE LIFF web application built around Cognitive Behavioral Therapy principles. It helps users record daily emotions, learn about depression, work through guided exercises, plan supportive routines, and access a Safety Plan when they need quick help.",
+    stack: ["React", "Shadcn", "NestJS", "PostgreSQL", "LINE LIFF"],
     highlights: [
-      "Structured project content with reusable fields.",
-      "SEO-friendly pages generated from project data.",
-      "Editorial workflow that keeps visual polish consistent.",
+      "Built as a LIFF experience that opens inside LINE.",
+      "Guided CBT-style flows for tracking thoughts, emotions, and behavior.",
+      "Safety Plan support for users who need fast access to help resources.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/emmind.png",
+        alt: "EMMIND mental health LIFF app screen",
+        caption:
+          "EMMIND preview showing the mental-health LIFF experience and user-facing support flow.",
+        width: 2996,
+        height: 1434,
+      },
     ],
     orbit: {
       width: "46%",
@@ -132,21 +181,32 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "titan-api",
-    name: "Titan API",
+    slug: "ctrl-g",
+    name: "CTRL G",
     codename: "Mars",
-    category: "Backend",
+    category: "Gaming Community",
     year: "2024",
     status: "Production",
+    liveUrl: "https://ctrlg.gg/",
     summary:
-      "A typed API layer concept for secure data access, predictable contracts, and reliable integrations.",
+      "A gaming community platform for player discovery, party matching, esports tournaments, and quizzes.",
     description:
-      "Titan API carries the engineering-heavy work: contracts, validation, observability, and integration points. Use this slot for a backend or platform project.",
-    stack: ["TypeScript", "API Design", "Auth", "Observability"],
+      "CTRL G brings community features, esports tournament participation, game quizzes, and party matching into one gamer-focused platform. This project highlights community UX, matchmaking flows, and responsive product surfaces for players who want to connect and compete.",
+    stack: ["React", "Ant Design", "Community UX", "Matchmaking"],
     highlights: [
-      "Typed request and response contracts.",
-      "Explicit auth boundaries and error states.",
-      "Instrumentation hooks for debugging production issues.",
+      "Community-driven space for gamers to post updates and follow games.",
+      "Party matching flow for finding teammates by preference and play mode.",
+      "Tournament and quiz surfaces designed for competitive gaming engagement.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/ctrlg.png",
+        alt: "CTRL G gaming community platform screen",
+        caption:
+          "CTRL G preview showing the gaming community product surface for players, events, and engagement.",
+        width: 2992,
+        height: 1722,
+      },
     ],
     orbit: {
       width: "58%",
@@ -166,21 +226,43 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "orion-ai",
-    name: "Orion AI",
+    slug: "cloudviu",
+    name: "Cloudviu",
     codename: "Jupiter",
-    category: "AI Tooling",
-    year: "2026",
-    status: "Research",
+    category: "Field Workforce CMS",
+    year: "2025",
+    status: "Private internal system",
     summary:
-      "An AI-assisted workspace concept for turning loose notes into scoped tasks and shipped changes.",
+      "A private CMS for companies that outsource nationwide field jobs such as stock checks, product audits, and outlet visits.",
     description:
-      "Orion AI is the large outer planet: high gravity, broader surface area, and a good home for your AI, automation, or internal tooling work.",
-    stack: ["AI Workflows", "Prompt Systems", "React", "Evaluation"],
+      "Cloudviu helps companies manage outsourced field employees who work across many locations. The system supports assigning teams to jobs, organizing outlets, tracking product and inventory checks, collecting job records, and reviewing reports for work spread across the country. Public access is unavailable because this is an authenticated internal system.",
+    stack: ["React", "Ant Design", "Field Ops CMS", "Inventory Workflow"],
     highlights: [
-      "Transforms rough intent into inspectable work plans.",
-      "Keeps generated output tied to source context.",
-      "Designed around reviewability instead of magic.",
+      "Team-group and team management for outsourced field workers.",
+      "Job workflows for stock checks, product checks, outlet visits, and audits.",
+      "Centralized reporting for distributed field work; public demo access is intentionally disabled.",
+    ],
+    caseStudy: {
+      heading: "How Cloudviu Is Used",
+      overview:
+        "A company creates field jobs for outsourced employees, groups workers by region or responsibility, assigns outlet visits, and reviews job records after workers check stock, product visibility, or campaign execution across the country.",
+      useCases: [
+        "Assign regional field teams to stock-check jobs across multiple outlets.",
+        "Track product and inventory checks submitted by outsourced employees.",
+        "Review job records, issues, and reports from distributed locations.",
+      ],
+      privateNote:
+        "This is a private internal system. The preview below is sanitized and uses mock data instead of real employee or company records.",
+    },
+    screenshots: [
+      {
+        src: "/project-screens/cloudviu.png",
+        alt: "Cloudviu field workforce CMS screen",
+        caption:
+          "Cloudviu CMS preview showing field-workforce operations, team management, and nationwide job workflow structure.",
+        width: 3022,
+        height: 1724,
+      },
     ],
     orbit: {
       width: "72%",
@@ -200,21 +282,32 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "saturn-labs",
-    name: "Saturn Labs",
+    slug: "ticktopia",
+    name: "Ticktopia",
     codename: "Saturn",
-    category: "Experiments",
+    category: "Event Ticketing",
     year: "2024",
-    status: "Collection",
+    status: "Live site",
+    liveUrl: "https://www.ticktopia.co/",
     summary:
-      "A ringed archive of smaller prototypes, interaction studies, and interface experiments.",
+      "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
     description:
-      "Saturn Labs is for experiments that deserve visibility but not a full case-study orbit. Its rings make it visually distinct in the portfolio map.",
-    stack: ["Motion Design", "CSS", "Prototyping", "UX Research"],
+      "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
+    stack: ["Product Website", "Event UX", "Ticketing Flow", "Responsive UI"],
     highlights: [
-      "Small experiments grouped into one memorable destination.",
-      "Fast visual tests before committing to larger builds.",
-      "Interaction ideas that can graduate into full projects.",
+      "Event-focused landing flow for discovery and conversion.",
+      "Clear product positioning around ticket access and event browsing.",
+      "Responsive interface structure for users browsing across devices.",
+    ],
+    screenshots: [
+      {
+        src: "/project-screens/ticktopia.png",
+        alt: "Ticktopia event ticketing website screen",
+        caption:
+          "Ticktopia preview showing the event-ticketing website experience and user path toward ticket discovery.",
+        width: 2826,
+        height: 1572,
+      },
     ],
     orbit: {
       width: "86%",
@@ -235,21 +328,43 @@ export const portfolioProjects: PortfolioProject[] = [
     },
   },
   {
-    slug: "vega-field",
-    name: "Vega Field",
+    slug: "samitivej-benefits",
+    name: "Samitivej Benefits",
     codename: "Neptune",
-    category: "Systems",
-    year: "2023",
-    status: "Archive",
+    category: "Hospital Benefits CMS",
+    year: "2025",
+    status: "Private production system",
     summary:
-      "A systems-design archive for infrastructure diagrams, technical writing, and deep-dive documentation.",
+      "A production CMS and LIFF-connected system for managing Samitivej member benefits, cards, coupons, packages, redemptions, and data exports.",
     description:
-      "Vega Field is the far-orbit archive: slower, colder, and useful for showing depth. Use it for infrastructure, architecture, or technical writing.",
-    stack: ["Architecture", "Documentation", "Diagrams", "Systems Thinking"],
+      "Samitivej Benefits is a private production system for hospital member-benefit operations. The CMS supports member records, member cards, coupon codes, benefit redemption requests, benefit usage documents, packages, users, branches, and report exports, while the related LIFF app gives members access to their benefits flow.",
+    stack: ["CMS", "LINE LIFF", "Member Benefits", "Data Export"],
     highlights: [
-      "Long-form technical decisions with clear tradeoffs.",
-      "Architecture diagrams that explain how systems behave.",
-      "A home for work that is valuable but less visual.",
+      "Member-card and user management for hospital benefit operations.",
+      "Coupon, package, benefit redemption, and redemption-request workflows.",
+      "Export tools for operational reporting and benefit usage data.",
+    ],
+    caseStudy: {
+      heading: "How Samitivej Benefits Is Used",
+      overview:
+        "Hospital staff can manage members and benefit packages in the CMS, while members interact with the related LIFF flow. The operation covers card setup, coupon configuration, redemption requests, benefit usage records, and data export for reporting.",
+      useCases: [
+        "Manage member profiles, member cards, and benefit packages.",
+        "Review coupon usage, redemption requests, and redeemed transactions.",
+        "Export member and benefit-operation data for reporting workflows.",
+      ],
+      privateNote:
+        "This is a private production healthcare system. Public access is intentionally unavailable; screenshots are limited to non-member-data screens such as package and card management.",
+    },
+    screenshots: [
+      {
+        src: "/project-screens/samitivej-commux.png",
+        alt: "Samitivej member benefits CMS screen",
+        caption:
+          "Samitivej benefits CMS preview showing member-card, coupon, redemption, package, and export-management modules.",
+        width: 3014,
+        height: 1724,
+      },
     ],
     orbit: {
       width: "108%",

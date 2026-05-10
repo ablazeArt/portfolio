@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { PortfolioProject } from "@/app/data/projects";
+import { Activity, Calendar, ExternalLink, FileText, Globe } from "lucide-react";
 
 type ProjectPanelProps = {
   project: PortfolioProject;
@@ -41,11 +42,11 @@ export function ProjectPanel({
 
         <dl className="mission-stats">
           <div>
-            <dt>Status</dt>
+            <dt className="flex items-center gap-1"><Activity size={16} /> Status</dt>
             <dd>{project.status}</dd>
           </div>
           <div>
-            <dt>Year</dt>
+            <dt className="flex items-center gap-1"><Calendar size={16} /> Year</dt>
             <dd>{project.year}</dd>
           </div>
         </dl>
@@ -63,8 +64,22 @@ export function ProjectPanel({
         </ul>
 
         <div className="panel-actions">
-          <Link href={`/projects/${project.slug}`}>Open mission brief</Link>
-          <a href="#mission-index-title">Browse all planets</a>
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2"
+            >
+              <ExternalLink size={16} /> {project.liveLabel ?? "Visit live site"}
+            </a>
+          ) : null}
+          <Link href={`/projects/${project.slug}`} className="flex items-center gap-2">
+            <FileText size={16} /> Open mission brief
+          </Link>
+          <a href="#mission-index-title" className="flex items-center gap-2">
+            <Globe size={16} /> Browse all planets
+          </a>
         </div>
       </div>
     </aside>

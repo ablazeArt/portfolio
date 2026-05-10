@@ -15,7 +15,7 @@ const body = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Ablaze Portfolio | Solar System Projects",
+  title: "Fuart Portfolio | Solar System Projects",
   description:
     "An interactive portfolio where each project is represented as a planet in orbit.",
 };

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { profile } from "@/app/data/profile";
+import { Briefcase, Code, GraduationCap, Layers, MapPin, Star } from "lucide-react";
 
 export function ProfilePanel() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,11 +29,11 @@ export function ProfilePanel() {
 
         <dl className="mission-stats">
           <div>
-            <dt>Base</dt>
+            <dt className="flex items-center gap-1"><MapPin size={16} /> Base</dt>
             <dd>{profile.location}</dd>
           </div>
           <div>
-            <dt>Focus</dt>
+            <dt className="flex items-center gap-1"><Code size={16} /> Focus</dt>
             <dd>Full-stack web</dd>
           </div>
         </dl>
@@ -40,7 +41,7 @@ export function ProfilePanel() {
         <p className="profile-copy">{profile.summary}</p>
 
         <section className="profile-section" aria-labelledby="experience-title">
-          <h3 id="experience-title">Experience</h3>
+          <h3 id="experience-title" className="flex items-center gap-2"><Briefcase size={20} /> Experience</h3>
           <p>
             <strong>{profile.experience.role}</strong> at{" "}
             {profile.experience.company}
@@ -54,7 +55,7 @@ export function ProfilePanel() {
         </section>
 
         <section className="profile-section" aria-labelledby="skills-title">
-          <h3 id="skills-title">Core Stack</h3>
+          <h3 id="skills-title" className="flex items-center gap-2"><Layers size={20} /> Core Stack</h3>
           <div className="stack-cluster">
             {profile.skills.map((skill) => (
               <span key={skill}>{skill}</span>
@@ -63,7 +64,7 @@ export function ProfilePanel() {
         </section>
 
         <section className="profile-section" aria-labelledby="selected-work-title">
-          <h3 id="selected-work-title">Highlight Projects</h3>
+          <h3 id="selected-work-title" className="flex items-center gap-2"><Star size={20} /> Highlight Projects</h3>
           <ul className="highlight-list">
             {profile.selectedWork.map((work) => (
               <li key={work}>{work}</li>
@@ -72,7 +73,7 @@ export function ProfilePanel() {
         </section>
 
         <section className="profile-section" aria-labelledby="education-title">
-          <h3 id="education-title">Education</h3>
+          <h3 id="education-title" className="flex items-center gap-2"><GraduationCap size={20} /> Education</h3>
           <p>{profile.education}</p>
         </section>
       </div>

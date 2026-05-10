@@ -5,6 +5,7 @@ export type PlanetRuntime = {
   project: PortfolioProject;
   mesh: THREE.Mesh;
   material: THREE.MeshStandardMaterial;
+  cloudLayer?: THREE.Mesh;
   baseColor: THREE.Color;
   activeColor: THREE.Color;
   hitArea: THREE.Mesh;

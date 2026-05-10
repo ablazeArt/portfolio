@@ -21,10 +21,24 @@ import {
   createStarField,
 } from "./objects";
 import {
+  createEarthCloudTexture,
+  createGlowTexture,
   createLabelTexture,
   createPlanetMaterial,
+  createSunTexture,
 } from "./textures";
 import type { CameraReadout, HoverTarget, PlanetRuntime, TapCandidate } from "./types";
+
+type RocketOrbitTarget = Exclude<HoverTarget, null>;
+
+type RocketTransfer = {
+  target: RocketOrbitTarget;
+  startedAt: number;
+  duration: number;
+  startPosition: THREE.Vector3;
+  startScale: number;
+  arriveAngle: number;
+};
 
 export function useSolarSystemScene() {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -104,12 +118,39 @@ export function useSolarSystemScene() {
     const sunActiveColor = new THREE.Color("#fff4a6");
     const sunMaterial = new THREE.MeshBasicMaterial({
       color: sunBaseColor.clone(),
+      map: createSunTexture(),
     });
     const sun = new THREE.Mesh(
       new THREE.SphereGeometry(10, 64, 64),
       sunMaterial,
     );
     systemGroup.add(sun);
+
+    const sunGlowTexture = createGlowTexture();
+    const sunGlowMaterial = new THREE.SpriteMaterial({
+      map: sunGlowTexture,
+      color: "#fff12f",
+      transparent: true,
+      opacity: 0.72,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const sunGlow = new THREE.Sprite(sunGlowMaterial);
+    sunGlow.scale.set(52, 52, 1);
+    systemGroup.add(sunGlow);
+
+    const sunOuterGlow = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: sunGlowTexture,
+        color: "#f6ff32",
+        transparent: true,
+        opacity: 0.24,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    sunOuterGlow.scale.set(92, 92, 1);
+    systemGroup.add(sunOuterGlow);
 
     const sunHitArea = new THREE.Mesh(
       new THREE.SphereGeometry(12.5, 32, 32),
@@ -152,6 +193,35 @@ export function useSolarSystemScene() {
         );
         mesh.userData.slug = project.slug;
         systemGroup.add(mesh);
+
+        let cloudLayer: THREE.Mesh | undefined;
+        if (project.codename === "Earth") {
+          cloudLayer = new THREE.Mesh(
+            new THREE.SphereGeometry(planetRadius * 1.018, 48, 48),
+            new THREE.MeshBasicMaterial({
+              map: createEarthCloudTexture(),
+              transparent: true,
+              opacity: 0.42,
+              depthWrite: false,
+            }),
+          );
+          cloudLayer.renderOrder = 10;
+          mesh.add(cloudLayer);
+
+          const atmosphere = new THREE.Sprite(
+            new THREE.SpriteMaterial({
+              map: createGlowTexture("92, 208, 255"),
+              color: "#7bdcff",
+              transparent: true,
+              opacity: 0.28,
+              blending: THREE.AdditiveBlending,
+              depthWrite: false,
+            }),
+          );
+          atmosphere.scale.set(planetRadius * 4.8, planetRadius * 4.8, 1);
+          atmosphere.renderOrder = 12;
+          mesh.add(atmosphere);
+        }
 
         const light = new THREE.PointLight(
           project.visual.color,
@@ -204,6 +274,7 @@ export function useSolarSystemScene() {
           project,
           mesh,
           material: planetMaterial,
+          cloudLayer,
           baseColor,
           activeColor,
           hitArea,
@@ -249,6 +320,7 @@ export function useSolarSystemScene() {
 
     clearSceneFocusRef.current = () => {
       selectedTarget = null;
+      rocketTransfer = null;
       focusTarget = returnTarget.clone();
       cameraFocusPosition = returnCameraPosition.clone();
       returnTweenStartedAt = performance.now();
@@ -291,6 +363,7 @@ export function useSolarSystemScene() {
         runtime.hitArea.position.set(x, 0, z);
         runtime.light.position.set(x, 0, z);
         runtime.mesh.rotation.y += 0.008;
+        runtime.cloudLayer?.rotateY(0.004);
         runtime.label.position.set(x + 8, 0, z + 4);
       });
     }
@@ -307,6 +380,9 @@ export function useSolarSystemScene() {
     const introLaunchDirection = new THREE.Vector3(0, 1, 0);
 
     const rocket = createRocket();
+    rocket.group.traverse((object) => {
+      object.renderOrder = 20;
+    });
     const rocketTrail = createRocketTrail();
     const rocketTrailGeometry = rocketTrail.points.geometry;
     const rocketTrailMaterial = rocketTrail.points.material;
@@ -332,7 +408,9 @@ export function useSolarSystemScene() {
       earthWorldPosition.z / rocketOrbitEllipse,
       earthWorldPosition.x,
     );
+    let focusedRocketOrbitAngle = 0;
     let rocketOrbitTransitionStartedAt: number | null = null;
+    let rocketTransfer: RocketTransfer | null = null;
 
     rocket.group.scale.setScalar(1.28);
     rocket.group.quaternion.setFromUnitVectors(
@@ -386,6 +464,69 @@ export function useSolarSystemScene() {
       if (rocketTrailMaterial instanceof THREE.PointsMaterial) {
         rocketTrailMaterial.opacity = Math.max(0, 0.62 * (1 - progress * 0.72));
       }
+    }
+
+    function getFocusedRocketOrbitRadius(runtime: PlanetRuntime) {
+      return Math.max(runtime.radius * 0.07 + 0.9, 4.2);
+    }
+
+    function getFocusedSunRocketOrbitRadius() {
+      return 13.2;
+    }
+
+    function getCameraOrbitAxes() {
+      return {
+        right: new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion),
+        up: new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion),
+      };
+    }
+
+    function getRocketTargetCenter(target: RocketOrbitTarget) {
+      const center = new THREE.Vector3();
+
+      if (target.type === "planet") {
+        target.runtime.mesh.getWorldPosition(center);
+      } else {
+        sun.getWorldPosition(center);
+      }
+
+      return center;
+    }
+
+    function getRocketTargetOrbitRadius(target: RocketOrbitTarget) {
+      return target.type === "planet"
+        ? getFocusedRocketOrbitRadius(target.runtime)
+        : getFocusedSunRocketOrbitRadius();
+    }
+
+    function getRocketOrbitPosition(target: RocketOrbitTarget, angle: number) {
+      const center = getRocketTargetCenter(target);
+      const radius = getRocketTargetOrbitRadius(target);
+      const { right, up } = getCameraOrbitAxes();
+
+      return center
+        .add(right.clone().multiplyScalar(Math.cos(angle) * radius))
+        .add(up.clone().multiplyScalar(Math.sin(angle) * radius));
+    }
+
+    function beginRocketTransfer(target: RocketOrbitTarget) {
+      const center = getRocketTargetCenter(target);
+      const relativeRocketPosition = rocket.group.position.clone().sub(center);
+      const { right, up } = getCameraOrbitAxes();
+      const currentAngle = Math.atan2(
+        relativeRocketPosition.dot(up),
+        relativeRocketPosition.dot(right),
+      );
+      const distance = rocket.group.position.distanceTo(center);
+
+      rocketTransfer = {
+        target,
+        startedAt: performance.now(),
+        duration: THREE.MathUtils.clamp(distance * 18, 1250, 2800),
+        startPosition: rocket.group.position.clone(),
+        startScale: rocket.group.scale.x,
+        arriveAngle: currentAngle + 0.9,
+      };
     }
 
     function completeIntro() {
@@ -459,14 +600,116 @@ export function useSolarSystemScene() {
     }
 
     function updateRocketOrbit(delta: number) {
-      rocketOrbitAngle += delta * 0.000045;
-      const nextAngle = rocketOrbitAngle + 0.018;
-      const x = Math.cos(rocketOrbitAngle) * rocketOrbitRadius;
-      const z = Math.sin(rocketOrbitAngle) * rocketOrbitRadius * rocketOrbitEllipse;
-      const nextX = Math.cos(nextAngle) * rocketOrbitRadius;
-      const nextZ = Math.sin(nextAngle) * rocketOrbitRadius * rocketOrbitEllipse;
-      const orbitPosition = new THREE.Vector3(x, 4.2, z);
-      const nextPosition = new THREE.Vector3(nextX, 4.2, nextZ);
+      const orbitingFocusedTarget = selectedTarget;
+      const orbitPosition = new THREE.Vector3();
+      const nextPosition = new THREE.Vector3();
+
+      if (rocketTransfer) {
+        const progress = THREE.MathUtils.clamp(
+          (performance.now() - rocketTransfer.startedAt) /
+            rocketTransfer.duration,
+          0,
+          1,
+        );
+        const easedProgress = easeInOutCubic(progress);
+        const flightAngle = rocketTransfer.arriveAngle + progress * 0.42;
+        const targetOrbitPosition = getRocketOrbitPosition(
+          rocketTransfer.target,
+          flightAngle,
+        );
+        const nextTargetOrbitPosition = getRocketOrbitPosition(
+          rocketTransfer.target,
+          flightAngle + 0.16,
+        );
+        const flightDistance =
+          rocketTransfer.startPosition.distanceTo(targetOrbitPosition);
+        const cameraLift = getCameraOrbitAxes().up.multiplyScalar(
+          Math.sin(easedProgress * Math.PI) *
+            Math.min(24, flightDistance * 0.18),
+        );
+        const currentPosition = rocketTransfer.startPosition
+          .clone()
+          .lerp(targetOrbitPosition, easedProgress)
+          .add(cameraLift);
+        const direction = (
+          progress < 0.94 ? targetOrbitPosition : nextTargetOrbitPosition
+        )
+          .clone()
+          .sub(currentPosition)
+          .normalize();
+
+        if (direction.lengthSq() > 0) {
+          rocket.group.quaternion.setFromUnitVectors(
+            new THREE.Vector3(0, 1, 0),
+            direction,
+          );
+        }
+
+        rocket.group.position.copy(currentPosition);
+        rocket.group.scale.setScalar(
+          THREE.MathUtils.lerp(rocketTransfer.startScale, 0.58, easedProgress),
+        );
+        rocket.flameLight.intensity = THREE.MathUtils.lerp(
+          rocket.flameLight.intensity,
+          22,
+          0.16,
+        );
+
+        if (progress >= 1) {
+          focusedRocketOrbitAngle = flightAngle;
+          rocketTransfer = null;
+        }
+
+        rocket.flame.scale.setScalar(
+          0.76 + Math.sin(performance.now() * 0.024) * 0.1,
+        );
+        return;
+      } else if (orbitingFocusedTarget) {
+        focusedRocketOrbitAngle += delta * 0.00155;
+        const nextAngle = focusedRocketOrbitAngle + 0.16;
+        const center = new THREE.Vector3();
+        const radius =
+          orbitingFocusedTarget.type === "planet"
+            ? getFocusedRocketOrbitRadius(orbitingFocusedTarget.runtime)
+            : getFocusedSunRocketOrbitRadius();
+        const { right: cameraRight, up: cameraUp } = getCameraOrbitAxes();
+
+        if (orbitingFocusedTarget.type === "planet") {
+          orbitingFocusedTarget.runtime.mesh.getWorldPosition(center);
+        } else {
+          sun.getWorldPosition(center);
+        }
+
+        orbitPosition
+          .copy(center)
+          .add(
+            cameraRight
+              .clone()
+              .multiplyScalar(Math.cos(focusedRocketOrbitAngle) * radius),
+          )
+          .add(
+            cameraUp
+              .clone()
+              .multiplyScalar(Math.sin(focusedRocketOrbitAngle) * radius),
+          );
+        nextPosition
+          .copy(center)
+          .add(cameraRight.clone().multiplyScalar(Math.cos(nextAngle) * radius))
+          .add(cameraUp.clone().multiplyScalar(Math.sin(nextAngle) * radius));
+      } else {
+        rocketOrbitAngle += delta * 0.000045;
+        const nextAngle = rocketOrbitAngle + 0.018;
+        const x = Math.cos(rocketOrbitAngle) * rocketOrbitRadius;
+        const z =
+          Math.sin(rocketOrbitAngle) * rocketOrbitRadius * rocketOrbitEllipse;
+        const nextX = Math.cos(nextAngle) * rocketOrbitRadius;
+        const nextZ =
+          Math.sin(nextAngle) * rocketOrbitRadius * rocketOrbitEllipse;
+
+        orbitPosition.set(x, 4.2, z);
+        nextPosition.set(nextX, 4.2, nextZ);
+      }
+
       const transitionProgress = rocketOrbitTransitionStartedAt === null
         ? 1
         : THREE.MathUtils.clamp(
@@ -475,10 +718,18 @@ export function useSolarSystemScene() {
             1,
           );
       const easedTransition = easeInOutCubic(transitionProgress);
-      const currentPosition = rocketEnd.clone().lerp(orbitPosition, easedTransition);
-      const direction = transitionProgress < 1
-        ? orbitPosition.clone().sub(currentPosition).normalize()
-        : nextPosition.clone().sub(currentPosition).normalize();
+      const currentPosition =
+        orbitingFocusedTarget
+          ? orbitPosition
+          : rocketOrbitTransitionStartedAt === null
+          ? rocket.group.position
+              .clone()
+              .lerp(orbitPosition, 0.045)
+          : rocketEnd.clone().lerp(orbitPosition, easedTransition);
+      const direction =
+        orbitingFocusedTarget || transitionProgress >= 1
+          ? nextPosition.clone().sub(currentPosition).normalize()
+          : orbitPosition.clone().sub(currentPosition).normalize();
 
       if (transitionProgress >= 1) {
         rocketOrbitTransitionStartedAt = null;
@@ -486,7 +737,18 @@ export function useSolarSystemScene() {
 
       rocket.group.position.copy(currentPosition);
       rocket.group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
-      rocket.group.scale.setScalar(THREE.MathUtils.lerp(1.28, 0.9, easedTransition));
+      rocket.group.scale.setScalar(
+        THREE.MathUtils.lerp(
+          rocket.group.scale.x,
+          orbitingFocusedTarget ? 0.58 : 0.9,
+          orbitingFocusedTarget ? 0.12 : easedTransition,
+        ),
+      );
+      rocket.flameLight.intensity = THREE.MathUtils.lerp(
+        rocket.flameLight.intensity,
+        orbitingFocusedTarget ? 14 : 8,
+        0.12,
+      );
       rocket.flame.scale.setScalar(0.68 + Math.sin(performance.now() * 0.024) * 0.08);
     }
 
@@ -521,7 +783,21 @@ export function useSolarSystemScene() {
       runtime.mesh.scale.setScalar(1 + level * 0.07);
     }
 
+    function setLabelOpacity(label: THREE.Sprite, opacity: number) {
+      if (!(label.material instanceof THREE.SpriteMaterial)) {
+        return;
+      }
+
+      label.material.opacity = THREE.MathUtils.lerp(
+        label.material.opacity,
+        opacity,
+        0.16,
+      );
+    }
+
     function updateLightingState() {
+      const hasFocusedTarget = Boolean(selectedTarget);
+
       planetRuntimes.forEach((runtime) => {
         const lightLevel = targetMatches(selectedTarget, {
           type: "planet",
@@ -532,7 +808,24 @@ export function useSolarSystemScene() {
             ? 0.55
             : 0;
         setPlanetLight(runtime, lightLevel);
+        setLabelOpacity(
+          runtime.label,
+          hasFocusedTarget
+            ? targetMatches(selectedTarget, { type: "planet", runtime })
+              ? 0.9
+              : 0.16
+            : 1,
+        );
       });
+
+      setLabelOpacity(
+        sunLabel,
+        hasFocusedTarget
+          ? targetMatches(selectedTarget, { type: "sun" })
+            ? 0.9
+            : 0.16
+          : 1,
+      );
 
       const sunLevel = targetMatches(selectedTarget, { type: "sun" })
         ? 1
@@ -543,6 +836,18 @@ export function useSolarSystemScene() {
         .clone()
         .lerp(sunActiveColor, sunLevel);
       sunMaterial.color.lerp(targetSunColor, 0.16);
+      sunGlowMaterial.opacity = THREE.MathUtils.lerp(
+        sunGlowMaterial.opacity,
+        0.72 + sunLevel * 0.24,
+        0.12,
+      );
+      sunGlow.scale.setScalar(52 + sunLevel * 8);
+      sunOuterGlow.material.opacity = THREE.MathUtils.lerp(
+        sunOuterGlow.material.opacity,
+        0.24 + sunLevel * 0.16,
+        0.12,
+      );
+      sunOuterGlow.scale.setScalar(92 + sunLevel * 12);
       sunLight.intensity = THREE.MathUtils.lerp(
         sunLight.intensity,
         900 + sunLevel * 460,
@@ -560,15 +865,23 @@ export function useSolarSystemScene() {
         returnTarget = controls.target.clone();
       }
       selectedTarget = runtime ? { type: "planet", runtime } : null;
+      rocketOrbitTransitionStartedAt = null;
+      if (runtime) {
+        beginRocketTransfer({ type: "planet", runtime });
+      }
       returnTweenStartedAt = null;
       controls.autoRotate = false;
 
       const worldPosition = new THREE.Vector3();
       mesh.getWorldPosition(worldPosition);
-      focusTarget = worldPosition.clone();
+      const drawerOffset = new THREE.Vector3(1, 0, 0)
+        .applyQuaternion(camera.quaternion)
+        .multiplyScalar(renderer.domElement.clientWidth <= 820 ? 0 : 26);
+      const visibleFocusTarget = worldPosition.clone().add(drawerOffset);
+      focusTarget = visibleFocusTarget.clone();
 
       const direction = camera.position.clone().sub(worldPosition).normalize();
-      const nextCameraPosition = worldPosition
+      const nextCameraPosition = visibleFocusTarget
         .clone()
         .add(direction.multiplyScalar(72));
       cameraFocusPosition = nextCameraPosition;
@@ -582,6 +895,8 @@ export function useSolarSystemScene() {
         returnTarget = controls.target.clone();
       }
       selectedTarget = { type: "sun" };
+      rocketOrbitTransitionStartedAt = null;
+      beginRocketTransfer({ type: "sun" });
       returnTweenStartedAt = null;
       controls.autoRotate = false;
       focusTarget = new THREE.Vector3(0, 0, 0);
@@ -813,6 +1128,12 @@ export function useSolarSystemScene() {
       mount.removeChild(renderer.domElement);
 
       scene.traverse((object) => {
+        if (object instanceof THREE.Sprite) {
+          object.material.map?.dispose();
+          object.material.dispose();
+          return;
+        }
+
         if (
           object instanceof THREE.Mesh ||
           object instanceof THREE.Line ||
@@ -829,11 +1150,6 @@ export function useSolarSystemScene() {
 
             material.dispose();
           });
-        }
-
-        if (object instanceof THREE.Sprite) {
-          object.material.map?.dispose();
-          object.material.dispose();
         }
       });
     };
