@@ -32,6 +32,7 @@ export const profile = {
     "PixiJS",
     "Git",
     "Docker",
+    "Jest"
   ],
   education:
     "Bachelor of Engineering, Control System and Instrumentation Engineering, King Mongkut's University of Technology Thonburi.",
