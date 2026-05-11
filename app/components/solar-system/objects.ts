@@ -33,15 +33,26 @@ function createPointGlowTexture() {
   return texture;
 }
 
-export function createStarField() {
+function createSphericalStarLayer({
+  count,
+  maxRadius,
+  minRadius,
+  opacity,
+  size,
+}: {
+  count: number;
+  maxRadius: number;
+  minRadius: number;
+  opacity: number;
+  size: number;
+}) {
   const geometry = new THREE.BufferGeometry();
-  const starCount = 6200;
-  const positions = new Float32Array(starCount * 3);
-  const colors = new Float32Array(starCount * 3);
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
   const color = new THREE.Color();
 
-  for (let index = 0; index < starCount; index += 1) {
-    const radius = 360 + Math.random() * 1240;
+  for (let index = 0; index < count; index += 1) {
+    const radius = minRadius + Math.random() * (maxRadius - minRadius);
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
 
@@ -51,9 +62,17 @@ export function createStarField() {
 
     const variant = Math.random();
     color.set(
-      variant > 0.92 ? "#ffd98a" : variant > 0.78 ? "#9fd1ff" : "#dce8ff",
+      variant > 0.965
+        ? "#ffd98a"
+        : variant > 0.84
+          ? "#9fd1ff"
+          : variant > 0.72
+            ? "#fff5d6"
+            : "#dce8ff",
     );
-    const intensity = 0.34 + Math.random() * 0.82;
+    const intensity = variant > 0.985
+      ? 1.35 + Math.random() * 0.42
+      : 0.26 + Math.random() * 0.9;
     colors[index * 3] = color.r * intensity;
     colors[index * 3 + 1] = color.g * intensity;
     colors[index * 3 + 2] = color.b * intensity;
@@ -66,15 +85,89 @@ export function createStarField() {
     geometry,
     new THREE.PointsMaterial({
       map: createPointGlowTexture(),
-      size: 1.15,
-      sizeAttenuation: true,
+      size,
+      sizeAttenuation: false,
       transparent: true,
-      opacity: 0.96,
+      opacity,
       vertexColors: true,
       alphaTest: 0.02,
       depthWrite: false,
+      fog: false,
     }),
   );
+}
+
+function createGalacticDustBand() {
+  const geometry = new THREE.BufferGeometry();
+  const starCount = 5200;
+  const positions = new Float32Array(starCount * 3);
+  const colors = new Float32Array(starCount * 3);
+  const color = new THREE.Color();
+
+  for (let index = 0; index < starCount; index += 1) {
+    const radius = 520 + Math.random() * 1180;
+    const theta = Math.random() * Math.PI * 2;
+    const bandOffset = (Math.random() - 0.5) * 120;
+    const y = bandOffset + Math.sin(theta * 2.2) * 24;
+
+    positions[index * 3] = Math.cos(theta) * radius;
+    positions[index * 3 + 1] = y;
+    positions[index * 3 + 2] = Math.sin(theta) * radius * 0.72;
+
+    color.set(Math.random() > 0.72 ? "#f7dc9f" : "#8fbfff");
+    const intensity = 0.12 + Math.random() * 0.34;
+    colors[index * 3] = color.r * intensity;
+    colors[index * 3 + 1] = color.g * intensity;
+    colors[index * 3 + 2] = color.b * intensity;
+  }
+
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+  const points = new THREE.Points(
+    geometry,
+    new THREE.PointsMaterial({
+      map: createPointGlowTexture(),
+      size: 1.1,
+      sizeAttenuation: false,
+      transparent: true,
+      opacity: 0.54,
+      vertexColors: true,
+      alphaTest: 0.01,
+      depthWrite: false,
+      fog: false,
+    }),
+  );
+  points.rotation.x = THREE.MathUtils.degToRad(12);
+  points.rotation.z = THREE.MathUtils.degToRad(-16);
+
+  return points;
+}
+
+export function createStarField() {
+  const group = new THREE.Group();
+
+  group.add(
+    createSphericalStarLayer({
+      count: 14500,
+      maxRadius: 1800,
+      minRadius: 300,
+      opacity: 0.96,
+      size: 1.08,
+    }),
+  );
+  group.add(
+    createSphericalStarLayer({
+      count: 1200,
+      maxRadius: 1350,
+      minRadius: 240,
+      opacity: 0.88,
+      size: 2.1,
+    }),
+  );
+  group.add(createGalacticDustBand());
+
+  return group;
 }
 
 export function createOrbit(radius: number, ellipse: number, color: string) {
@@ -288,6 +381,7 @@ export function createRocketTrail(count = 54) {
       vertexColors: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
+      fog: false,
     }),
   );
 

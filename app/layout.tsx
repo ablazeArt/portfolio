@@ -18,6 +18,13 @@ export const metadata: Metadata = {
   title: "Fuart | Orbital Portfolio",
   description:
     "An interactive portfolio where each project is represented as a planet in orbit.",
+  openGraph: {
+    images: ["/portfolio-system.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/portfolio-system.png"],
+  },
 };
 
 export default function RootLayout({

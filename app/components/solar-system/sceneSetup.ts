@@ -21,7 +21,7 @@ export type SolarSystemObjects = {
   renderer: THREE.WebGLRenderer;
   scene: THREE.Scene;
   setPlanetPositions: (delta: number) => void;
-  stars: THREE.Points;
+  stars: THREE.Group;
   sun: SunRuntime;
   systemGroup: THREE.Group;
 };
