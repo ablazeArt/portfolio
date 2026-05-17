@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { profile } from "@/app/data/profile";
-import { Briefcase, Code, GraduationCap, Layers, MapPin, Star } from "lucide-react";
+import { Briefcase, Code, GraduationCap, Layers, MapPin, Star, LayoutGrid } from "lucide-react";
 
 export function ProfilePanel() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -76,6 +77,12 @@ export function ProfilePanel() {
           <h3 id="education-title" className="flex items-center gap-2"><GraduationCap size={20} /> Education</h3>
           <p>{profile.education}</p>
         </section>
+
+        <div className="panel-actions" style={{ marginTop: "24px" }}>
+          <Link href="/projects" className="flex items-center gap-2 justify-center">
+            <LayoutGrid size={16} /> View all projects
+          </Link>
+        </div>
       </div>
     </aside>
   );

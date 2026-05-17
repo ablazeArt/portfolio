@@ -30,6 +30,11 @@ body {
   font-family: var(--font-body), "Space Grotesk", sans-serif;
 }
 
+html:has(.projects-overview),
+body:has(.projects-overview) {
+  background: #f7f4ef;
+}
+
 button,
 a {
   font: inherit;
@@ -933,6 +938,283 @@ a {
   color: rgba(230, 237, 255, 0.7);
   font-size: 0.94rem;
   line-height: 1.5;
+}
+
+/* --- Projects Overview Page --- */
+.projects-overview {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f7f4ef;
+}
+
+.projects-overview-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.projects-showcase {
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  color: #0b0b0d;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.98), rgba(247, 244, 237, 0.96) 58%, rgba(239, 235, 226, 0.92)),
+    #f7f4ef;
+}
+
+.projects-orbit-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  width: min(500px, calc(100% - 48px));
+  gap: 12px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.projects-orbit-center .eyebrow {
+  color: rgba(11, 11, 13, 0.48);
+}
+
+.projects-orbit-center h2 {
+  margin: 0;
+  color: #0b0b0d;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4.3vmin, 3.35rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+}
+
+.projects-orbit-center p:not(.eyebrow) {
+  margin: 0;
+  color: rgba(11, 11, 13, 0.84);
+  font-size: clamp(0.98rem, 1.9vmin, 1.24rem);
+  font-weight: 650;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.projects-orbit-stage {
+  --orbit-duration: 54s;
+  --orbit-radius: min(32vmin, 390px);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.projects-orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  animation: project-orbit-spin var(--orbit-duration) linear infinite;
+}
+
+.projects-orbit-stage:hover .projects-orbit-ring,
+.projects-orbit-stage:focus-within .projects-orbit-ring,
+.projects-orbit-stage:hover .project-orbit-card,
+.projects-orbit-stage:focus-within .project-orbit-card {
+  animation-play-state: paused;
+}
+
+.project-orbit-item {
+  --orbit-angle: 0deg;
+  --orbit-counter-angle: 0deg;
+  --orbit-item-size: 160px;
+  --orbit-size: var(--orbit-item-size);
+  --project-accent: #7bdcff;
+  --project-glow: rgba(123, 220, 255, 0.58);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--orbit-size);
+  color: inherit;
+  outline: none;
+  transform: rotate(var(--orbit-angle)) translateX(var(--orbit-radius)) rotate(var(--orbit-counter-angle));
+}
+
+.project-orbit-card {
+  display: grid;
+  width: var(--orbit-size);
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  animation: project-orbit-counter-spin var(--orbit-duration) linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+.project-orbit-thumb {
+  position: relative;
+  display: block;
+  width: var(--orbit-size);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(11, 11, 13, 0.08);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 22px 54px rgba(11, 11, 13, 0.14),
+    0 0 0 10px rgba(255, 255, 255, 0.26),
+    0 0 42px color-mix(in srgb, var(--project-glow) 22%, transparent);
+  transition:
+    box-shadow 260ms ease,
+    filter 260ms ease,
+    transform 360ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.project-orbit-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.02);
+  transition: transform 520ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.project-orbit-title {
+  max-width: calc(var(--orbit-size) + 64px);
+  color: rgba(11, 11, 13, 0.86);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(0.82rem, 0.92vw, 1rem);
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-shadow: 0 12px 28px rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  text-wrap: balance;
+  transition:
+    color 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.project-orbit-item:hover .project-orbit-thumb,
+.project-orbit-item:focus-visible .project-orbit-thumb {
+  box-shadow:
+    0 30px 80px rgba(11, 11, 13, 0.2),
+    0 0 0 10px color-mix(in srgb, var(--project-accent) 16%, rgba(255, 255, 255, 0.4)),
+    0 0 62px color-mix(in srgb, var(--project-glow) 34%, transparent);
+  filter: saturate(1.08) contrast(1.03);
+  transform: translateY(-6px) scale(1.05);
+}
+
+.project-orbit-item:hover .project-orbit-image,
+.project-orbit-item:focus-visible .project-orbit-image {
+  transform: scale(1.12);
+}
+
+.project-orbit-item:hover .project-orbit-title,
+.project-orbit-item:focus-visible .project-orbit-title {
+  color: #000;
+  transform: translateY(-2px);
+}
+
+@keyframes project-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes project-orbit-counter-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .projects-showcase {
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .projects-orbit-stage {
+    --orbit-radius: min(32vmin, 280px);
+  }
+}
+
+@media (max-width: 900px) {
+  .projects-overview {
+    padding-top: 0;
+  }
+
+  .projects-overview-shell {
+    width: 100%;
+  }
+
+  .projects-showcase {
+    height: 100vh;
+    min-height: 100vh;
+    margin-inline: 0;
+    border-radius: 0;
+  }
+
+  .projects-orbit-center {
+    top: 17%;
+    width: min(300px, calc(100% - 48px));
+    gap: 8px;
+  }
+
+  .projects-orbit-center .eyebrow {
+    font-size: 0.54rem;
+    letter-spacing: 0.22em;
+  }
+
+  .projects-orbit-center h2 {
+    width: min(270px, 100%);
+    justify-self: center;
+    font-size: clamp(1.35rem, 6.8vw, 1.72rem);
+    letter-spacing: -0.08em;
+    line-height: 0.94;
+  }
+
+  .projects-orbit-center p:not(.eyebrow) {
+    display: block;
+    max-width: 280px;
+    justify-self: center;
+    font-size: 0.78rem;
+    line-height: 1.42;
+  }
+
+  .projects-orbit-stage {
+    --orbit-duration: 48s;
+    --orbit-radius: min(28vw, 112px);
+  }
+
+  .projects-orbit-ring {
+    top: 56%;
+  }
+
+  .project-orbit-item {
+    --orbit-size: min(var(--orbit-item-size), 54px);
+  }
+
+  .project-orbit-card {
+    gap: 5px;
+  }
+
+  .project-orbit-title {
+    max-width: calc(var(--orbit-size) + 18px);
+    font-size: 0.48rem;
+    letter-spacing: 0.06em;
+  }
 }
 
 @media (max-width: 760px) {
