@@ -18,9 +18,9 @@ const slideScreenDimensions: Record<string, { width: number; height: number }> =
     "cloudviu.webp": { width: 1440, height: 1080 },
     "conver-dpu.webp": { width: 1440, height: 1080 },
     "ctrlg.webp": { width: 1440, height: 1080 },
-    "emmind.webp": { width: 1440, height: 1080 },
+    "emmind.webp": { width: 1080, height: 720 },
     "samitivej-commux.webp": { width: 1440, height: 1080 },
-    "vote69.webp": { width: 1440, height: 1080 },
+    "vote69.webp": { width: 1080, height: 608 },
     "whallet.webp": { width: 1440, height: 1080 },
   };
 
@@ -41,9 +41,6 @@ const slideImageFrameStyles: Record<string, CSSProperties> = {
   thvote69: {
     transform: "scale(1.22)",
   },
-  "samitivej-benefits": {
-    transform: "scale(1.035)",
-  },
 };
 
 function getProjectSlideScreen(
@@ -62,7 +59,7 @@ function getProjectSlideScreen(
 
   return {
     ...screenshot,
-    src: `/project-slide-screens-2/${filename}`,
+    src: `/project-slide-screens/${filename}`,
     ...dimensions,
   };
 }
