@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,8 +56,18 @@ export default async function ProjectPage({
     notFound();
   }
 
+  const accentStyle = {
+    "--project-accent": project.visual.color,
+    "--project-glow": project.visual.glow,
+  } as CSSProperties;
+
   return (
-    <main className="project-detail">
+    <main className="project-detail" style={accentStyle}>
+      <div className="project-detail-planet-container" aria-hidden="true">
+        <div className="project-detail-planet-sphere" />
+        {project.visual.ring && <div className="project-detail-planet-ring" />}
+      </div>
+
       <div className="project-detail-shell">
         <section>
           <Link

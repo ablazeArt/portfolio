@@ -762,12 +762,74 @@ a {
 }
 
 .project-detail {
+  position: relative;
   min-height: 100svh;
   padding: clamp(24px, 5vw, 72px);
+  overflow: hidden;
   background:
-    radial-gradient(circle at 22% 12%, rgba(123, 220, 255, 0.18), transparent 28%),
-    radial-gradient(circle at 78% 72%, rgba(255, 217, 128, 0.14), transparent 30%),
+    radial-gradient(circle at 82% 18%, var(--project-glow), transparent 34%),
     #02030a;
+}
+
+.project-detail-planet-container {
+  position: absolute;
+  top: clamp(-50px, 4svh, 80px);
+  right: clamp(-150px, -8vw, -60px);
+  width: clamp(260px, 40svh, 460px);
+  height: clamp(260px, 40svh, 460px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.72;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-detail-planet-sphere {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, var(--project-accent) 0%, rgba(2, 4, 11, 0.98) 78%);
+  box-shadow: 
+    0 0 70px 15px var(--project-glow),
+    inset -15px -15px 40px rgba(0, 0, 0, 0.95),
+    inset 20px 20px 40px rgba(255, 255, 255, 0.15);
+  position: relative;
+  z-index: 2;
+  animation: project-planet-rotate 160s linear infinite;
+}
+
+.project-detail-planet-ring {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220%;
+  height: 38%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    color-mix(in srgb, var(--project-accent) 25%, transparent) 54%,
+    color-mix(in srgb, var(--project-accent) 64%, transparent) 58%,
+    transparent 62%,
+    color-mix(in srgb, var(--project-accent) 58%, transparent) 66%,
+    color-mix(in srgb, var(--project-accent) 15%, transparent) 78%,
+    transparent 82%
+  );
+  transform: translate(-50%, -50%) rotate(-14deg);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.85;
+}
+
+@keyframes project-planet-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .projects-index {
@@ -1028,6 +1090,66 @@ a {
     radial-gradient(circle at 24% 46%, var(--project-glow), transparent 32%);
 }
 
+.projects-auto-planet-container {
+  position: absolute;
+  left: 24%;
+  top: 46%;
+  width: clamp(140px, 18svh, 240px);
+  height: clamp(140px, 18svh, 240px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-54%, -42%) scale(0.7) rotate(-35deg);
+  transition: 
+    opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-auto-card:hover .projects-auto-planet-container {
+  opacity: 0.92;
+  transform: translate(-50%, -46%) scale(1.05) rotate(15deg);
+}
+
+.projects-auto-planet-sphere {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, var(--project-accent) 0%, rgba(2, 4, 11, 0.98) 78%);
+  box-shadow: 
+    0 0 50px 10px var(--project-glow),
+    inset -10px -10px 30px rgba(0, 0, 0, 0.95),
+    inset 15px 15px 30px rgba(255, 255, 255, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.projects-auto-planet-ring {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220%;
+  height: 38%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    color-mix(in srgb, var(--project-accent) 25%, transparent) 54%,
+    color-mix(in srgb, var(--project-accent) 64%, transparent) 58%,
+    transparent 62%,
+    color-mix(in srgb, var(--project-accent) 58%, transparent) 66%,
+    color-mix(in srgb, var(--project-accent) 15%, transparent) 78%,
+    transparent 82%
+  );
+  transform: translate(-50%, -50%) rotate(-14deg);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.85;
+}
+
 .projects-auto-card::before {
   content: "";
   position: absolute;
@@ -1044,9 +1166,12 @@ a {
   mask-composite: intersect;
   -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%), linear-gradient(to right, black 20px, transparent 20px, transparent calc(100% - 20px), black calc(100% - 20px));
   -webkit-mask-composite: source-in;
+  z-index: 2;
 }
 
 .projects-auto-copy {
+  position: relative;
+  z-index: 2;
   display: grid;
   align-content: end;
   gap: 9px;
@@ -1096,6 +1221,7 @@ a {
 
 .projects-auto-media {
   position: relative;
+  z-index: 2;
   display: grid;
   min-height: 0;
   overflow: hidden;
@@ -1965,6 +2091,8 @@ a {
 }
 
 .project-detail-shell {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.5fr);
   gap: clamp(24px, 5vw, 72px);
@@ -1973,7 +2101,7 @@ a {
 }
 
 .project-detail a {
-  color: #7bdcff;
+  color: var(--project-accent);
 }
 
 .project-back-link {
@@ -1983,14 +2111,14 @@ a {
   min-height: 44px;
   padding: 0 18px;
   margin-bottom: 22px;
-  border: 1px solid rgba(123, 220, 255, 0.34);
+  border: 1px solid color-mix(in srgb, var(--project-accent) 26%, rgba(255, 255, 255, 0.1));
   border-radius: 999px;
   color: #eaf6ff;
   background:
-    linear-gradient(135deg, rgba(123, 220, 255, 0.16), rgba(255, 217, 128, 0.06)),
+    linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 14%, transparent), rgba(255, 217, 128, 0.04)),
     rgba(7, 12, 28, 0.82);
   box-shadow:
-    0 0 24px rgba(123, 220, 255, 0.12),
+    0 0 24px color-mix(in srgb, var(--project-glow) 20%, transparent),
     inset 0 0 18px rgba(255, 255, 255, 0.04);
   font-weight: 800;
   letter-spacing: 0.03em;
@@ -2002,7 +2130,7 @@ a {
 
 .project-back-link::before {
   content: "<";
-  color: #7bdcff;
+  color: var(--project-accent);
   font-family: var(--font-display), sans-serif;
   font-size: 0.9rem;
   line-height: 1;
@@ -2010,9 +2138,9 @@ a {
 
 .project-back-link:hover,
 .project-back-link:focus-visible {
-  border-color: rgba(123, 220, 255, 0.72);
+  border-color: var(--project-accent);
   box-shadow:
-    0 0 32px rgba(123, 220, 255, 0.22),
+    0 0 32px var(--project-glow),
     inset 0 0 22px rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
 }
@@ -2039,6 +2167,19 @@ a {
 .project-detail-actions {
   max-width: 280px;
   margin-top: 28px;
+}
+
+.project-detail-actions a:first-child {
+  color: #02030a !important;
+  background: linear-gradient(135deg, var(--project-accent), #ffffff) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), 0 0 40px var(--project-glow) !important;
+  border: none !important;
+}
+
+.project-detail-actions a:first-child:hover,
+.project-detail-actions a:first-child:focus-visible {
+  background: linear-gradient(135deg, #ffffff, var(--project-accent)) !important;
+  box-shadow: 0 0 45px var(--project-glow) !important;
 }
 
 .project-detail-card {
@@ -2092,8 +2233,8 @@ a {
 .project-highlight-list svg {
   flex: 0 0 auto;
   margin-top: 0.24em;
-  color: #7bdcff;
-  filter: drop-shadow(0 0 10px rgba(123, 220, 255, 0.34));
+  color: var(--project-accent);
+  filter: drop-shadow(0 0 10px var(--project-glow));
 }
 
 .project-case-study,

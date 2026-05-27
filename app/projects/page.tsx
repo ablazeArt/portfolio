@@ -81,6 +81,11 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
         style={accentStyle}
         aria-hidden={duplicate ? "true" : undefined}
       >
+        <div className="projects-auto-planet-container" aria-hidden="true">
+          <div className="projects-auto-planet-sphere" />
+          {project.visual.ring && <div className="projects-auto-planet-ring" />}
+        </div>
+
         <div className="projects-auto-copy">
           <p className="projects-auto-meta">
             Mission {String(index + 1).padStart(2, "0")} · {project.codename}
