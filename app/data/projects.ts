@@ -190,9 +190,9 @@ export const portfolioProjects: PortfolioProject[] = [
     },
     visual: {
       size: 38,
-      color: "#8f72ff",
-      glow: "rgba(143, 114, 255, 0.76)",
-      orbitColor: "rgba(143, 114, 255, 0.38)",
+      color: "#f7785f",
+      glow: "rgba(247, 120, 95, 0.76)",
+      orbitColor: "rgba(247, 120, 95, 0.38)",
     },
   },
   {
