@@ -46,8 +46,6 @@ const slideImageFrameStyles: Record<string, CSSProperties> = {
   },
 };
 
-const reframedSlideProjects = new Set(["emmind", "thvote69"]);
-
 function getProjectSlideScreen(
   project: (typeof portfolioProjects)[number],
   screenshot: NonNullable<
@@ -64,11 +62,7 @@ function getProjectSlideScreen(
 
   return {
     ...screenshot,
-    src: `/${
-      reframedSlideProjects.has(project.slug)
-        ? "project-slide-screens-2"
-        : "project-slide-screens-v3"
-    }/${filename}`,
+    src: `/project-slide-screens-2/${filename}`,
     ...dimensions,
   };
 }
