@@ -776,9 +776,18 @@ a {
   width: 100%;
   overflow: hidden;
   background:
+    linear-gradient(rgba(123, 220, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123, 220, 255, 0.03) 1px, transparent 1px),
     radial-gradient(circle at 12% 8%, rgba(123, 220, 255, 0.16), transparent 28%),
     radial-gradient(circle at 92% 30%, rgba(255, 217, 128, 0.12), transparent 26%),
     linear-gradient(180deg, #071b1d 0%, #02030a 34%, #03040b 100%);
+  background-size:
+    40px 40px,
+    40px 40px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-position: center top;
 }
 
 .projects-topbar {
@@ -1019,6 +1028,24 @@ a {
     radial-gradient(circle at 24% 46%, var(--project-glow), transparent 32%);
 }
 
+.projects-auto-card::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 40px;
+  border-top: 1px solid rgba(123, 220, 255, 0.15);
+  border-left: 1px solid rgba(123, 220, 255, 0.15);
+  border-right: 1px solid rgba(123, 220, 255, 0.15);
+  opacity: 0.6;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%), linear-gradient(to right, black 20px, transparent 20px, transparent calc(100% - 20px), black calc(100% - 20px));
+  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%), linear-gradient(to right, black 20px, transparent 20px, transparent calc(100% - 20px), black calc(100% - 20px));
+  -webkit-mask-composite: source-in;
+}
+
 .projects-auto-copy {
   display: grid;
   align-content: end;
@@ -1034,7 +1061,7 @@ a {
 }
 
 .projects-auto-meta {
-  color: rgba(198, 213, 255, 0.72);
+  color: rgba(238, 243, 255, 0.95);
   font-family: var(--font-display), sans-serif;
   font-size: 0.72rem;
   font-weight: 800;
@@ -1052,14 +1079,14 @@ a {
 }
 
 .projects-auto-subtitle {
-  color: rgba(198, 213, 255, 0.68);
+  color: rgba(238, 243, 255, 0.95);
   font-size: 0.86rem;
   font-weight: 800;
   line-height: 1.35;
 }
 
 .projects-auto-summary {
-  color: rgba(222, 231, 255, 0.68);
+  color: rgba(245, 248, 255, 0.95);
   line-height: 1.48;
   display: -webkit-box;
   overflow: hidden;
