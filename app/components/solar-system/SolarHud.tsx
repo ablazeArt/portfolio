@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type SolarHudProps = {
   drawerOpen: boolean;
 };
@@ -15,6 +17,9 @@ export function SolarHud({ drawerOpen }: SolarHudProps) {
         Full-stack software engineer orbiting frontend craft, backend systems,
         and interactive web products.
       </p>
+      <Link href="/projects" className="hud-projects-link">
+        View all projects
+      </Link>
     </div>
   );
 }

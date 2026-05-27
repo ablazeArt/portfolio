@@ -94,37 +94,88 @@ export const portfolioProjects: PortfolioProject[] = [
       orbitColor: "rgba(255, 179, 107, 0.42)",
     },
   },
+  // Archived temporarily while the Venus project slot is used for Conver DPU.
+  // {
+  //   slug: "ticktopia",
+  //   name: "Ticktopia",
+  //   codename: "Venus",
+  //   category: "Event Ticketing",
+  //   year: "2026",
+  //   status: "Live site",
+  //   liveUrl: "https://www.ticktopia.co/",
+  //   summary:
+  //     "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
+  //   description:
+  //     "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
+  //   characteristics: [
+  //     "Event Discovery",
+  //     "Ticketing Journey",
+  //     "Conversion-focused",
+  //     "Responsive Landing",
+  //   ],
+  //   highlights: [
+  //     "Event-focused landing flow for discovery and conversion.",
+  //     "Clear product positioning around ticket access and event browsing.",
+  //     "Responsive interface structure for users browsing across devices.",
+  //   ],
+  //   screenshots: [
+  //     {
+  //       src: "/project-screens/ticktopia.png",
+  //       alt: "Ticktopia event ticketing website screen",
+  //       caption:
+  //         "Ticktopia preview showing the event-ticketing website experience and user path toward ticket discovery.",
+  //       width: 2826,
+  //       height: 1572,
+  //     },
+  //   ],
+  //   orbit: {
+  //     width: "34%",
+  //     height: "20%",
+  //     tilt: -11,
+  //     x: "46%",
+  //     y: "39%",
+  //     duration: "34s",
+  //     delay: "-15s",
+  //     labelSide: "left",
+  //   },
+  //   visual: {
+  //     size: 38,
+  //     color: "#f7785f",
+  //     glow: "rgba(247, 120, 95, 0.76)",
+  //     orbitColor: "rgba(247, 120, 95, 0.38)",
+  //   },
+  // },
   {
-    slug: "ticktopia",
-    name: "Ticktopia",
+    slug: "conver-dpu",
+    name: "Conver DPU",
     codename: "Venus",
-    category: "Event Ticketing",
-    year: "2026",
+    category: "Interactive Reflection Campaign",
+    year: "2025",
     status: "Live site",
-    liveUrl: "https://www.ticktopia.co/",
+    liveUrl: "https://conver.dpu.ac.th/",
     summary:
-      "An event-ticketing product site for discovering events and moving users toward ticket purchase flows.",
+      "A DPU interactive web experience that gives users seven minutes to answer reflective questions they may have forgotten to ask themselves.",
     description:
-      "Ticktopia is an event and ticketing experience focused on helping users discover events and continue into a ticket-purchase journey. This slot highlights product storytelling, responsive event surfaces, and the conversion path from browsing to action.",
+      "Conver DPU is an immersive campaign site built around a slow, guided conversation with yourself. The experience combines cinematic scenes, sound, branching questions, and personalized result cards to help users reflect on past and future versions of themselves before continuing into DPU guidance and assessment flows.",
     characteristics: [
-      "Event Discovery",
-      "Ticketing Journey",
-      "Conversion-focused",
-      "Responsive Landing",
+      "Interactive Campaign",
+      "Guided Reflection",
+      "Cinematic Web",
+      "DPU Admissions Flow",
     ],
     highlights: [
-      "Event-focused landing flow for discovery and conversion.",
-      "Clear product positioning around ticket access and event browsing.",
-      "Responsive interface structure for users browsing across devices.",
+      "Seven-minute self-reflection journey with Thai and English interface support.",
+      "Uses branching questions, ambient sound, and video scenes to frame the conversation.",
+      "Generates shareable result cards and routes users toward DPU assessment and contact flows.",
     ],
     screenshots: [
       {
-        src: "/project-screens/ticktopia.png",
-        alt: "Ticktopia event ticketing website screen",
+        src: "/project-screens/conver-dpu.jpg",
+        alt: "Conver DPU interactive reflection campaign screen",
         caption:
-          "Ticktopia preview showing the event-ticketing website experience and user path toward ticket discovery.",
-        width: 2826,
-        height: 1572,
+          "Conver DPU campaign preview showing the guided seven-minute reflection experience.",
+        width: 2400,
+        height: 1260,
       },
     ],
     orbit: {
@@ -139,9 +190,9 @@ export const portfolioProjects: PortfolioProject[] = [
     },
     visual: {
       size: 38,
-      color: "#f7785f",
-      glow: "rgba(247, 120, 95, 0.76)",
-      orbitColor: "rgba(247, 120, 95, 0.38)",
+      color: "#8f72ff",
+      glow: "rgba(143, 114, 255, 0.76)",
+      orbitColor: "rgba(143, 114, 255, 0.38)",
     },
   },
   {
