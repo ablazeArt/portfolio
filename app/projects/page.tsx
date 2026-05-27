@@ -2,8 +2,10 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, User } from "lucide-react";
 import { portfolioProjects } from "@/app/data/projects";
+import ProjectsSlider from "./ProjectsSlider";
+import TelemetryReadout from "./TelemetryReadout";
 
 export const metadata: Metadata = {
   title: "Projects | Fuart Madnurak",
@@ -13,12 +15,12 @@ export const metadata: Metadata = {
 
 const slideScreenDimensions: Record<string, { width: number; height: number }> =
   {
-    "cloudviu.webp": { width: 1080, height: 810 },
-    "conver-dpu.webp": { width: 1080, height: 810 },
-    "ctrlg.webp": { width: 1080, height: 810 },
-    "emmind.webp": { width: 1080, height: 810 },
-    "samitivej-commux.webp": { width: 464, height: 348 },
-    "vote69.webp": { width: 1080, height: 810 },
+    "cloudviu.webp": { width: 1440, height: 1080 },
+    "conver-dpu.webp": { width: 1440, height: 1080 },
+    "ctrlg.webp": { width: 1440, height: 1080 },
+    "emmind.webp": { width: 1440, height: 1080 },
+    "samitivej-commux.webp": { width: 1440, height: 1080 },
+    "vote69.webp": { width: 1440, height: 1080 },
     "whallet.webp": { width: 1440, height: 1080 },
   };
 
@@ -39,7 +41,8 @@ function getProjectSlideScreen(
   >[number],
 ) {
   const filename =
-    slideScreenFiles[project.slug] ?? screenshot.src.split("/").at(-1).replace(/\.(png|jpg)$/, ".webp");
+    slideScreenFiles[project.slug] ??
+    (screenshot.src.split("/").at(-1) ?? "").replace(/\.(png|jpg)$/, ".webp");
   const dimensions = slideScreenDimensions[filename] ?? {
     width: screenshot.width,
     height: screenshot.height,
@@ -47,7 +50,7 @@ function getProjectSlideScreen(
 
   return {
     ...screenshot,
-    src: `/project-slide-screens-2/${filename}`,
+    src: `/project-slide-screens-v3/${filename}`,
     ...dimensions,
   };
 }
@@ -81,7 +84,7 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
         </div>
 
         <Link
-          href={`/projects/${project.slug}`}
+          href={`/projects/${project.slug}?from=projects`}
           className="projects-auto-media"
           tabIndex={duplicate ? -1 : undefined}
           aria-label={`Open ${project.name} mission brief`}
@@ -94,6 +97,7 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
               sizes="(max-width: 760px) 88vw, 34vw"
               quality={95}
               priority={index < 3 && !duplicate}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <span>{project.codename}</span>
@@ -126,23 +130,20 @@ export default function ProjectsPage() {
           Enter solar system
         </Link>
 
-        <div className="projects-topbar-tabs" aria-label="Project filters">
-          <span>
-            Selected <sup>({portfolioProjects.length})</sup>
-          </span>
-          <span>Archive</span>
-          <span>Published</span>
-        </div>
+        <TelemetryReadout />
 
-        <span className="projects-topbar-count">
-          {portfolioProjects.length} missions
-        </span>
+        <div className="projects-topbar-actions">
+          <Link href="/?profile=true" className="projects-profile-btn">
+            <User size={13} aria-hidden="true" />
+            Profile
+          </Link>
+          <span className="projects-topbar-count">
+            {portfolioProjects.length} missions
+          </span>
+        </div>
       </nav>
 
-      <section
-        className="projects-auto-section"
-        aria-label="Auto-scrolling projects"
-      >
+      <ProjectsSlider>
         <div className="projects-auto-track">
           <div className="projects-auto-group">
             <ProjectRailItems />
@@ -151,7 +152,7 @@ export default function ProjectsPage() {
             <ProjectRailItems duplicate />
           </div>
         </div>
-      </section>
+      </ProjectsSlider>
     </main>
   );
 }

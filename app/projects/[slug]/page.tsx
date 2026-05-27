@@ -12,6 +12,9 @@ type ProjectPageProps = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    from?: string;
+  }>;
 };
 
 export function generateStaticParams() {
@@ -38,8 +41,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function ProjectPage({
+  params,
+  searchParams,
+}: ProjectPageProps) {
   const { slug } = await params;
+  const { from } = await searchParams;
+  const isFromProjects = from === "projects";
+
   const project = getProjectBySlug(slug);
 
   if (!project) {
@@ -50,8 +59,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <main className="project-detail">
       <div className="project-detail-shell">
         <section>
-          <Link className="project-back-link" href="/">
-            Back to solar system
+          <Link
+            className="project-back-link"
+            href={isFromProjects ? "/projects" : "/"}
+          >
+            {isFromProjects ? "Back to projects" : "Back to solar system"}
           </Link>
           <p className="eyebrow">{project.codename} mission brief</p>
           <h1>{project.name}</h1>

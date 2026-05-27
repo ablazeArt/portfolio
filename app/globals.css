@@ -796,35 +796,87 @@ a {
   text-transform: uppercase;
 }
 
-.projects-topbar-tabs {
+.projects-telemetry {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(18px, 3vw, 34px);
+  gap: clamp(10px, 1.5vw, 18px);
+  color: rgba(238, 243, 255, 0.45);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.projects-topbar-tabs span {
-  color: rgba(238, 243, 255, 0.42);
+.telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.projects-topbar-tabs span:first-child {
-  color: rgba(238, 243, 255, 0.95);
+.telemetry-icon {
+  color: #7bdcff;
 }
 
-.projects-topbar-tabs span:first-child::before {
+.system-status {
+  color: #a3e635;
+}
+
+.system-status span {
+  font-weight: 900;
+}
+
+.pulse-dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 8px;
-  content: "";
-  vertical-align: 0.08em;
+  width: 5px;
+  height: 5px;
+  background: #a3e635;
   border-radius: 50%;
-  background: #eef3ff;
+  box-shadow: 0 0 8px #a3e635;
+  animation: telemetry-pulse 1.8s infinite ease-in-out;
 }
 
-.projects-topbar-tabs sup {
-  color: rgba(238, 243, 255, 0.42);
-  font-size: 0.54rem;
+.pulse-icon {
+  animation: telemetry-glow 2.4s infinite ease-in-out;
+}
+
+.rotate-icon {
+  animation: telemetry-spin 12s infinite linear;
+}
+
+.telemetry-separator {
+  color: rgba(123, 220, 255, 0.15);
+  user-select: none;
+}
+
+@keyframes telemetry-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 12px #a3e635;
+  }
+}
+
+@keyframes telemetry-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(123, 220, 255, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(123, 220, 255, 0.7));
+  }
+}
+
+@keyframes telemetry-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .projects-topbar-count {
@@ -878,9 +930,63 @@ a {
   transform: translateY(-2px);
 }
 
+.projects-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-self: end;
+}
+
+.projects-profile-btn {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 16px;
+  border: 1px solid rgba(123, 220, 255, 0.28);
+  border-radius: 999px;
+  color: rgba(238, 243, 255, 0.76);
+  background: rgba(3, 6, 15, 0.52);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.projects-profile-btn:hover,
+.projects-profile-btn:focus-visible {
+  border-color: rgba(123, 220, 255, 0.72);
+  background: rgba(123, 220, 255, 0.1);
+  color: #7bdcff;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.projects-profile-btn svg {
+  color: #7bdcff;
+}
+
 .projects-auto-section {
   height: calc(100svh - clamp(68px, 7vw, 92px));
   overflow: hidden;
+}
+
+.projects-auto-section.is-slider {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto !important;
+  cursor: grab;
+}
+
+.projects-auto-section.is-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-auto-section.is-slider .projects-auto-track {
+  animation: none;
 }
 
 .projects-auto-track {
@@ -888,6 +994,7 @@ a {
   width: max-content;
   min-width: 200%;
   height: 100%;
+  flex-shrink: 0;
   animation: projects-auto-scroll 56s linear infinite;
   animation-delay: 900ms;
 }
@@ -895,6 +1002,7 @@ a {
 .projects-auto-group {
   display: flex;
   height: 100%;
+  flex-shrink: 0;
 }
 
 .projects-auto-card {
@@ -970,10 +1078,12 @@ a {
 }
 
 .projects-auto-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  width: 100% !important;
+  height: 100% !important;
+  justify-self: stretch !important;
+  align-self: stretch !important;
+  object-fit: cover !important;
+  object-position: center !important;
   transition: filter 240ms ease;
 }
 
@@ -2101,12 +2211,12 @@ a {
     padding: 0 16px;
   }
 
-  .projects-topbar-tabs {
+  .projects-telemetry {
     display: none;
   }
 
   .projects-topbar-count {
-    font-size: 0.58rem;
+    display: none;
   }
 
   .projects-auto-section {

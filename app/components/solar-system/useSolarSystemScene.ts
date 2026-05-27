@@ -372,6 +372,13 @@ export function useSolarSystemScene() {
     renderer.domElement.addEventListener("wheel", handleWheel, { passive: true });
     controls.addEventListener("start", handleControlsStart);
     window.addEventListener("resize", handleResize);
+    // Auto-open profile if ?profile=true query param is present
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("profile") === "true") {
+      rocketController.completeIntro();
+      selectSun();
+    }
+
     animate();
 
     return () => {
