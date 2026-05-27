@@ -1,8 +1,8 @@
 import { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { BadgeCheck, Sparkles } from "lucide-react";
+import { Link } from "next-view-transitions";
+import { BadgeCheck, Sparkles, Rocket, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import {
   getProjectBySlug,
@@ -63,7 +63,13 @@ export default async function ProjectPage({
 
   return (
     <main className="project-detail" style={accentStyle}>
-      <div className="project-detail-planet-container" aria-hidden="true">
+      <div
+        className="project-detail-planet-container"
+        aria-hidden="true"
+        style={{
+          "--planet-transition-name": `planet-body-${project.slug}`,
+        } as CSSProperties}
+      >
         <div className="project-detail-planet-sphere" />
         {project.visual.ring && <div className="project-detail-planet-ring" />}
       </div>
@@ -74,7 +80,17 @@ export default async function ProjectPage({
             className="project-back-link"
             href={isFromProjects ? "/projects" : "/"}
           >
-            {isFromProjects ? "Back to projects" : "Back to solar system"}
+            {isFromProjects ? (
+              <>
+                <ArrowLeft aria-hidden="true" size={16} />
+                Back to projects
+              </>
+            ) : (
+              <>
+                <Rocket aria-hidden="true" size={16} style={{ transform: "rotate(-135deg)" }} />
+                Back to solar system
+              </>
+            )}
           </Link>
           <p className="eyebrow">{project.codename} mission brief</p>
           <h1>{project.name}</h1>

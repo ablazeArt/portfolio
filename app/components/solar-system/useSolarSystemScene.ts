@@ -21,6 +21,7 @@ function roundedVector(vector: THREE.Vector3): [number, number, number] {
 export function useSolarSystemScene() {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clearSceneFocusRef = useRef<() => void>(() => {});
+  const selectSunRef = useRef<() => void>(() => {});
   const [selectedProject, setSelectedProject] =
     useState<PortfolioProject | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -379,10 +380,13 @@ export function useSolarSystemScene() {
       selectSun();
     }
 
+    selectSunRef.current = selectSun;
+
     animate();
 
     return () => {
       clearSceneFocusRef.current = () => {};
+      selectSunRef.current = () => {};
       window.cancelAnimationFrame(animationFrame);
       renderer.domElement.removeEventListener("pointermove", handlePointerMove);
       renderer.domElement.removeEventListener("pointerleave", handlePointerLeave);
@@ -416,6 +420,10 @@ export function useSolarSystemScene() {
     setProfileOpen(false);
   }
 
+  function openProfile() {
+    selectSunRef.current();
+  }
+
   return {
     activeIndex,
     cameraReadout,
@@ -427,5 +435,6 @@ export function useSolarSystemScene() {
     setShowCameraReadout,
     shellClassName,
     showCameraReadout,
+    openProfile,
   };
 }

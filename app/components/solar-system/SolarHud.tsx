@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Link } from "next-view-transitions";
+import { Rocket } from "lucide-react";
 
 type SolarHudProps = {
   drawerOpen: boolean;
@@ -19,6 +20,12 @@ export function SolarHud({ drawerOpen }: SolarHudProps) {
       </p>
       <Link href="/projects" className="hud-projects-link">
         View all projects
+        <Rocket
+          aria-hidden="true"
+          size={14}
+          style={{ transform: "rotate(45deg)" }}
+          className="ml-1.5"
+        />
       </Link>
     </div>
   );

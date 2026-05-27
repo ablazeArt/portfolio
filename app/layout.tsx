@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Orbitron, Space_Grotesk } from "next/font/google";
+import { ViewTransitions } from "next-view-transitions";
 import "./globals.css";
 
 const display = Orbitron({
@@ -33,12 +34,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${display.variable} ${body.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
-      <body suppressHydrationWarning>{children}</body>
-    </html>
+    <ViewTransitions>
+      <html
+        lang="en"
+        className={`${display.variable} ${body.variable} h-full antialiased`}
+        suppressHydrationWarning
+      >
+        <body suppressHydrationWarning>{children}</body>
+      </html>
+    </ViewTransitions>
   );
 }

@@ -1,17 +1,13 @@
+"use client";
+
+import React from "react";
 import type { CSSProperties } from "react";
-import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, ExternalLink, User } from "lucide-react";
+import { Link } from "next-view-transitions";
+import { ExternalLink, Rocket, User } from "lucide-react";
 import { portfolioProjects } from "@/app/data/projects";
 import ProjectsSlider from "./ProjectsSlider";
 import TelemetryReadout from "./TelemetryReadout";
-
-export const metadata: Metadata = {
-  title: "Projects | Fuart Madnurak",
-  description:
-    "A readable, auto-scrolling overview of Fuart Madnurak's project work.",
-};
 
 const slideScreenDimensions: Record<string, { width: number; height: number }> =
   {
@@ -64,7 +60,13 @@ function getProjectSlideScreen(
   };
 }
 
-function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
+interface ProjectRailItemsProps {
+  duplicate?: boolean;
+}
+
+function ProjectRailItems({
+  duplicate = false,
+}: ProjectRailItemsProps) {
   return portfolioProjects.map((project, index) => {
     const screenshot = project.screenshots?.[0]
       ? getProjectSlideScreen(project, project.screenshots[0])
@@ -81,12 +83,23 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
         style={accentStyle}
         aria-hidden={duplicate ? "true" : undefined}
       >
-        <div className="projects-auto-planet-container" aria-hidden="true">
+        <div
+          className="projects-auto-planet-container"
+          aria-hidden="true"
+          style={{
+            "--planet-transition-name": duplicate ? "none" : `planet-body-${project.slug}`,
+          } as CSSProperties}
+        >
           <div className="projects-auto-planet-sphere" />
           {project.visual.ring && <div className="projects-auto-planet-ring" />}
         </div>
 
-        <div className="projects-auto-copy">
+        <Link
+          href={`/projects/${project.slug}?from=projects`}
+          className="projects-auto-copy"
+          tabIndex={duplicate ? -1 : undefined}
+          aria-label={`Open ${project.name} mission brief`}
+        >
           <p className="projects-auto-meta">
             Mission {String(index + 1).padStart(2, "0")} · {project.codename}
           </p>
@@ -95,7 +108,7 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
             {project.category} · {project.year} · {project.status}
           </p>
           <p className="projects-auto-summary">{project.summary}</p>
-        </div>
+        </Link>
 
         <Link
           href={`/projects/${project.slug}?from=projects`}
@@ -144,7 +157,7 @@ export default function ProjectsPage() {
     <main className="projects-index">
       <nav className="projects-topbar" aria-label="Projects navigation">
         <Link href="/" className="projects-index-back">
-          <ArrowLeft aria-hidden="true" size={16} />
+          <Rocket aria-hidden="true" size={16} style={{ transform: "rotate(-135deg)" }} />
           Enter solar system
         </Link>
 

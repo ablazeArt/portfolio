@@ -18,6 +18,9 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
   const isMouseDown = useRef(false);
   const dragMoved = useRef(false);
   const startX = useRef(0);
+  const startY = useRef(0);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
   const scrollLeftStart = useRef(0);
 
   // High-precision scroll position reference to prevent Safari integer rounding truncation bugs
@@ -75,7 +78,8 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
       if (e.button !== 0) return; // Only left click
       isMouseDown.current = true;
       dragMoved.current = false;
-      startX.current = e.pageX - container.offsetLeft;
+      startX.current = e.clientX;
+      startY.current = e.clientY;
       scrollLeftStart.current = container.scrollLeft;
       
       container.style.scrollBehavior = "auto"; // Disable smooth scrolling during drag
@@ -86,12 +90,15 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isMouseDown.current) return;
       
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX.current) * 1.5; // Drag speed multiplier
+      const dx = Math.abs(e.clientX - startX.current);
+      const dy = Math.abs(e.clientY - startY.current);
       
-      if (Math.abs(walk) > 5) {
+      // If moved more than 10 pixels, treat it as a drag/scroll operation, not a click
+      if (dx > 10 || dy > 10) {
         dragMoved.current = true;
       }
+      
+      const walk = (e.clientX - startX.current) * 1.5; // Drag speed multiplier
       
       container.scrollLeft = scrollLeftStart.current - walk;
       scrollLeftRef.current = container.scrollLeft;
@@ -106,9 +113,26 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
       }
     };
 
-    const handleTouchStart = () => {
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const touch = e.touches[0];
+      touchStartX.current = touch.clientX;
+      touchStartY.current = touch.clientY;
+      dragMoved.current = false;
       container.style.scrollBehavior = "auto";
       userInteracted();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - touchStartX.current);
+      const dy = Math.abs(touch.clientY - touchStartY.current);
+      
+      // Jitter tolerance threshold for touch drag detection
+      if (dx > 10 || dy > 10) {
+        dragMoved.current = true;
+      }
     };
 
     const handleTouchEnd = () => {
@@ -141,6 +165,7 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
     container.addEventListener("scroll", handleScroll, { passive: true });
 
     container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: true });
     container.addEventListener("touchend", handleTouchEnd, { passive: true });
 
     return () => {
@@ -153,6 +178,7 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
       container.removeEventListener("scroll", handleScroll);
 
       container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);

@@ -1,5 +1,7 @@
 "use client";
 
+import { Camera } from "lucide-react";
+
 import { CameraReadoutPanel } from "./solar-system/CameraReadoutPanel";
 import { ControlHints } from "./solar-system/ControlHints";
 import { DetailsDrawer } from "./solar-system/DetailsDrawer";
@@ -18,6 +20,7 @@ export function SolarSystemScene() {
     setShowCameraReadout,
     shellClassName,
     showCameraReadout,
+    openProfile,
   } = useSolarSystemScene();
 
   return (
@@ -29,12 +32,28 @@ export function SolarSystemScene() {
       />
 
       <SolarHud drawerOpen={drawerOpen} />
-      <ControlHints />
+      
+      {!drawerOpen ? (
+        <div className="system-bottom-actions">
+          <button
+            type="button"
+            className={`camera-toggle${showCameraReadout ? " is-active" : ""}`}
+            onClick={() => setShowCameraReadout((isVisible) => !isVisible)}
+            aria-pressed={showCameraReadout}
+            style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+          >
+            <Camera size={12} aria-hidden="true" />
+            Camera
+          </button>
+          <ControlHints />
+        </div>
+      ) : null}
+
       <CameraReadoutPanel
         cameraReadout={cameraReadout}
         drawerOpen={drawerOpen}
-        setShowCameraReadout={setShowCameraReadout}
         showCameraReadout={showCameraReadout}
+        openProfile={openProfile}
       />
       <DetailsDrawer
         activeIndex={activeIndex}

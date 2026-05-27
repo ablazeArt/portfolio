@@ -1,30 +1,33 @@
-import type { Dispatch, SetStateAction } from "react";
+import { User } from "lucide-react";
 import type { CameraReadout } from "./types";
 
 type CameraReadoutPanelProps = {
   cameraReadout: CameraReadout | null;
   drawerOpen: boolean;
-  setShowCameraReadout: Dispatch<SetStateAction<boolean>>;
   showCameraReadout: boolean;
+  openProfile: () => void;
 };
 
 export function CameraReadoutPanel({
   cameraReadout,
   drawerOpen,
-  setShowCameraReadout,
   showCameraReadout,
+  openProfile,
 }: CameraReadoutPanelProps) {
   return (
     <>
       {!drawerOpen ? (
-        <button
-          type="button"
-          className={`camera-toggle${showCameraReadout ? " is-active" : ""}`}
-          onClick={() => setShowCameraReadout((isVisible) => !isVisible)}
-          aria-pressed={showCameraReadout}
-        >
-          Camera
-        </button>
+        <div className="system-top-actions">
+          <button
+            type="button"
+            className="profile-toggle"
+            onClick={openProfile}
+            style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+          >
+            <User size={12} aria-hidden="true" />
+            Profile
+          </button>
+        </div>
       ) : null}
 
       {!drawerOpen && showCameraReadout && cameraReadout ? (

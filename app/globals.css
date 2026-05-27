@@ -181,6 +181,7 @@ a {
   min-height: 42px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 0 16px;
   margin-top: 18px;
   border: 1px solid rgba(123, 220, 255, 0.36);
@@ -218,11 +219,18 @@ a {
   transform: translateY(6px);
 }
 
-.control-hint {
+.system-bottom-actions {
   position: absolute;
   right: clamp(14px, 3vw, 34px);
   bottom: clamp(14px, 3vw, 30px);
-  z-index: 2;
+  z-index: 5;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.control-hint {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -232,6 +240,7 @@ a {
 }
 
 .control-hint span,
+.profile-toggle,
 .camera-toggle {
   padding: 9px 12px;
   border: 1px solid rgba(174, 197, 255, 0.2);
@@ -271,33 +280,91 @@ a {
   animation-delay: 1220ms;
 }
 
-.camera-toggle {
+.system-top-actions {
   position: absolute;
   right: clamp(14px, 3vw, 34px);
   top: clamp(14px, 3vw, 30px);
   z-index: 5;
-  cursor: pointer;
+  display: flex;
+  gap: clamp(8px, 1.5vw, 12px);
+  align-items: center;
+}
+
+.system-top-actions .profile-toggle {
   opacity: 0;
-  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.three-system-shell.is-ready .system-top-actions .profile-toggle {
+  animation: camera-arrival 560ms ease-out 1040ms forwards;
+}
+
+.camera-toggle {
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: auto !important;
+  border: 1px solid rgba(123, 220, 255, 0.36) !important;
+  color: #eaf6ff !important;
+  background: rgba(3, 6, 15, 0.54) !important;
+  box-shadow: 0 0 16px rgba(123, 220, 255, 0.08) !important;
+  transition: 
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.camera-toggle:hover,
+.camera-toggle:focus-visible {
+  border-color: rgba(123, 220, 255, 0.78) !important;
+  transform: scale(1.05) !important;
+}
+
+.camera-toggle.is-active:hover {
+  transform: scale(1.05) !important;
 }
 
 .three-system-shell.is-ready .camera-toggle {
   animation: camera-arrival 560ms ease-out 1040ms forwards;
 }
 
-.three-system-shell.has-drawer .camera-toggle {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px);
+.profile-toggle {
+  cursor: pointer;
+  transition: 
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.system-top-actions .profile-toggle {
+  border: 1px solid rgba(123, 220, 255, 0.36) !important;
+  color: #eaf6ff !important;
+  background:
+    linear-gradient(135deg, rgba(123, 220, 255, 0.14), rgba(255, 217, 128, 0.08)),
+    rgba(3, 6, 15, 0.58) !important;
+  box-shadow: 0 0 24px rgba(123, 220, 255, 0.14) !important;
+}
+
+.system-top-actions .profile-toggle:hover,
+.system-top-actions .profile-toggle:focus-visible {
+  color: #ffffff !important;
+  border-color: rgba(123, 220, 255, 0.78) !important;
+  background:
+    linear-gradient(135deg, rgba(123, 220, 255, 0.2), rgba(255, 217, 128, 0.14)),
+    rgba(3, 6, 15, 0.72) !important;
+  box-shadow: 0 0 32px rgba(123, 220, 255, 0.24) !important;
+  outline: none !important;
 }
 
 .camera-toggle:hover,
 .camera-toggle:focus-visible,
 .camera-toggle.is-active {
-  color: #031016;
-  border-color: rgba(123, 220, 255, 0.72);
-  background: linear-gradient(135deg, #7bdcff, #ffd980);
-  outline: none;
+  color: #031016 !important;
+  border-color: rgba(123, 220, 255, 0.72) !important;
+  background: linear-gradient(135deg, #7bdcff, #ffd980) !important;
+  outline: none !important;
 }
 
 @keyframes scene-arrival {
@@ -783,6 +850,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  view-transition-name: var(--planet-transition-name);
 }
 
 .project-detail-planet-sphere {
@@ -1106,11 +1174,68 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  view-transition-name: var(--planet-transition-name);
 }
 
 .projects-auto-card:hover .projects-auto-planet-container {
   opacity: 0.92;
   transform: translate(-50%, -46%) scale(1.05) rotate(15deg);
+}
+
+.projects-auto-card.is-navigating .projects-auto-planet-sphere {
+  box-shadow: 
+    0 0 100px 30px var(--project-glow),
+    inset -10px -10px 30px rgba(0, 0, 0, 0.95),
+    inset 15px 15px 30px rgba(255, 255, 255, 0.15) !important;
+  transition: box-shadow 1000ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.projects-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 82% 18%, var(--project-accent) 0%, #02030a 78%);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  pointer-events: none;
+  opacity: 0;
+  animation: projects-overlay-fade 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.projects-transition-overlay-exit {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 82% 18%, var(--project-accent) 0%, #02030a 78%);
+  pointer-events: none;
+  opacity: 1;
+  animation: projects-overlay-exit-fade 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes projects-overlay-fade {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(1);
+    -webkit-backdrop-filter: blur(0px) saturate(1);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  }
+}
+
+@keyframes projects-overlay-exit-fade {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(1);
+    -webkit-backdrop-filter: blur(0px) saturate(1);
+  }
 }
 
 .projects-auto-planet-sphere {
@@ -2098,6 +2223,19 @@ a {
   gap: clamp(24px, 5vw, 72px);
   width: min(1120px, 100%);
   margin: 0 auto;
+  animation: project-detail-arrival 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 200ms;
+}
+
+@keyframes project-detail-arrival {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-detail a {
@@ -2128,13 +2266,6 @@ a {
     box-shadow 180ms ease;
 }
 
-.project-back-link::before {
-  content: "<";
-  color: var(--project-accent);
-  font-family: var(--font-display), sans-serif;
-  font-size: 0.9rem;
-  line-height: 1;
-}
 
 .project-back-link:hover,
 .project-back-link:focus-visible {
@@ -2623,4 +2754,22 @@ a {
   .projects-auto-track {
     animation: none !important;
   }
+}
+
+/* View Transitions Enhancements */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 750ms;
+}
+
+/* Customize specific planet transitions with custom duration and premium easing curves */
+::view-transition-group(planet-body-whallet),
+::view-transition-group(planet-body-conver-dpu),
+::view-transition-group(planet-body-emmind),
+::view-transition-group(planet-body-cloudviu),
+::view-transition-group(planet-body-ctrl-g),
+::view-transition-group(planet-body-thvote69),
+::view-transition-group(planet-body-samitivej-benefits) {
+  animation-duration: 1300ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
