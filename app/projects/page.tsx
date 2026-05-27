@@ -34,6 +34,20 @@ const slideScreenFiles: Record<string, string> = {
   "samitivej-benefits": "samitivej-commux.webp",
 };
 
+const slideImageFrameStyles: Record<string, CSSProperties> = {
+  emmind: {
+    transform: "scale(1.08)",
+  },
+  thvote69: {
+    transform: "scale(1.22)",
+  },
+  "samitivej-benefits": {
+    transform: "scale(1.035)",
+  },
+};
+
+const reframedSlideProjects = new Set(["emmind", "thvote69"]);
+
 function getProjectSlideScreen(
   project: (typeof portfolioProjects)[number],
   screenshot: NonNullable<
@@ -50,7 +64,11 @@ function getProjectSlideScreen(
 
   return {
     ...screenshot,
-    src: `/project-slide-screens-v3/${filename}`,
+    src: `/${
+      reframedSlideProjects.has(project.slug)
+        ? "project-slide-screens-2"
+        : "project-slide-screens-v3"
+    }/${filename}`,
     ...dimensions,
   };
 }
@@ -86,6 +104,7 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
         <Link
           href={`/projects/${project.slug}?from=projects`}
           className="projects-auto-media"
+          data-project={project.slug}
           tabIndex={duplicate ? -1 : undefined}
           aria-label={`Open ${project.name} mission brief`}
         >
@@ -97,7 +116,10 @@ function ProjectRailItems({ duplicate = false }: { duplicate?: boolean }) {
               sizes="(max-width: 760px) 88vw, 34vw"
               quality={95}
               priority={index < 3 && !duplicate}
-              style={{ objectFit: "cover" }}
+              style={{
+                objectFit: "cover",
+                ...slideImageFrameStyles[project.slug],
+              }}
             />
           ) : (
             <span>{project.codename}</span>

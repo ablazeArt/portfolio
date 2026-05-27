@@ -39,7 +39,7 @@ export default function ProjectsSlider({ children }: ProjectsSliderProps) {
       isInteracting.current = false;
       // Reset lastTime to avoid jump on resumption
       lastTime.current = 0;
-    }, 5000);
+    }, 3000);
   };
 
   useEffect(() => {

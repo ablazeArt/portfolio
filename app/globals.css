@@ -1084,7 +1084,17 @@ a {
   align-self: stretch !important;
   object-fit: cover !important;
   object-position: center !important;
-  transition: filter 240ms ease;
+  transition:
+    filter 240ms ease,
+    transform 240ms ease;
+}
+
+.projects-auto-media[data-project="thvote69"] img {
+  object-position: 42% 52% !important;
+}
+
+.projects-auto-media[data-project="samitivej-benefits"] {
+  border-top: 0;
 }
 
 .projects-auto-media:hover img,
